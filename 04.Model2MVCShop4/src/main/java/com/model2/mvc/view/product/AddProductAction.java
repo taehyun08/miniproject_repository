@@ -17,7 +17,7 @@ public class AddProductAction extends Action{
 		Product productVO=new Product();
 		productVO.setProdName(request.getParameter("prodName"));
 		productVO.setProdDetail(request.getParameter("prodDetail"));
-		productVO.setManuDate(request.getParameter("manuDate"));
+		productVO.setManuDate(request.getParameter("manuDate").replace("-", ""));
 		productVO.setPrice(Integer.parseInt(request.getParameter("price")));
 		productVO.setFileName(request.getParameter("fileName"));
 		productVO.setStock(Integer.parseInt(request.getParameter("stock")));

@@ -13,6 +13,6 @@ public interface ProductService {
 	
 	public HashMap<String, Object> getProductList(Search searchVO) throws Exception;
 	
-	public void updateProduct(Product productVO) throws Exception;
+	public int updateProduct(Product productVO) throws Exception;
 	
 }

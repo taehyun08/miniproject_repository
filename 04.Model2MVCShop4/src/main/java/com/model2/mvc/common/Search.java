@@ -8,6 +8,8 @@ public class Search {
 	String searchKeyword;
 	String orderBy;
 	int pageUnit;
+	int startRowNum;
+	int endRowNum;
 	
 	public Search(){
 	}
@@ -46,5 +48,22 @@ public class Search {
 	public void setOrderBy(String orderBy) {
 		this.orderBy = orderBy;
 	}
+
+	public int getStartRowNum() {
+		return startRowNum;
+	}
+
+	public void setStartRowNum(int startRowNum) {
+		this.startRowNum = startRowNum;
+	}
+
+	public int getEndRowNum() {
+		return endRowNum;
+	}
+
+	public void setEndRowNum(int endRowNum) {
+		this.endRowNum = endRowNum;
+	}
+	
 	
 }
