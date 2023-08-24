@@ -1,6 +1,7 @@
 package com.model2.mvc.service.product.impl;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -16,6 +17,10 @@ public class ProductServiceimpl implements ProductService {
 	@Autowired
 	@Qualifier("productDaoImpl")
 	private ProductDaoImpl productDao;
+	
+	public void setProductDao(ProductDaoImpl productDao) {
+		this.productDao = productDao;
+	}
 
 	public ProductServiceimpl() {
 		productDao = new ProductDaoImpl();
@@ -33,11 +38,11 @@ public class ProductServiceimpl implements ProductService {
 	}
 
 	@Override
-	public HashMap<String, Object> getProductList(Search search) throws Exception {
-		HashMap<String, Object> hashMap = new HashMap<>();
-		hashMap.put("list", productDao.getProductList(search));
-		hashMap.put("count", productDao.getTotalCount(search));
-		return hashMap;
+	public Map<String, Object> getProductList(Search search) throws Exception {
+		Map<String, Object> map = new HashMap<>();
+		map.put("list", productDao.getProductList(search));
+		map.put("count", productDao.getTotalCount(search));
+		return map;
 	}
 
 	@Override

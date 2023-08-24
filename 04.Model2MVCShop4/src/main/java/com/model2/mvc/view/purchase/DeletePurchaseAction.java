@@ -18,9 +18,8 @@ public class DeletePurchaseAction extends Action{
 		
 		Purchase purchaseVO = new Purchase();
 		
-		purchaseVO.setTranNo(tranNo);
 		PurchaseService service=new PurchaseServiceimpl();
-		service.deletePurchase(purchaseVO);
+		service.deletePurchase(tranNo);
 		
 		request.setAttribute("purchaseVO", purchaseVO);
 		System.out.println("DeletePurchaseAction ³¡");

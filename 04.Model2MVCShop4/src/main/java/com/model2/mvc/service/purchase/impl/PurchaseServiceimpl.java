@@ -1,28 +1,47 @@
 package com.model2.mvc.service.purchase.impl;
 
-import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
 
 import com.model2.mvc.common.Search;
 import com.model2.mvc.service.domain.Purchase;
 import com.model2.mvc.service.product.impl.ProductDaoImpl;
 import com.model2.mvc.service.purchase.PurchaseService;
-import com.model2.mvc.service.purchase.dao.PurchaseDAO;
 
+@Service("PurchaseServiceimpl")
 public class PurchaseServiceimpl implements PurchaseService {
 	//field
-	PurchaseDAO dao;
-	ProductDaoImpl prodDAO;
+	
+	@Autowired
+	@Qualifier("PurchaseDaoImpl")
+	PurchaseDaoImpl dao;
+	
+	@Autowired
+	@Qualifier("productDaoImpl")
+	ProductDaoImpl prodDao;
 	//constructor
 	public PurchaseServiceimpl() {
-		dao = new PurchaseDAO();
-		prodDAO = new ProductDaoImpl();
+		dao = new PurchaseDaoImpl();
+		prodDao = new ProductDaoImpl();
+	}
+	
+	public void setDao(PurchaseDaoImpl dao) {
+		this.dao = dao;
+	}
+	
+	public void setProdDao(ProductDaoImpl prodDao) {
+		this.prodDao = prodDao;
 	}
 	
 	//method
 	@Override
-	public Purchase addPurchase(Purchase purchaseVO) throws Exception {
-		dao.insertPurchase(purchaseVO);
-		return purchaseVO;
+	public Purchase addPurchase(Purchase purchase) throws Exception {
+		dao.insertPurchase(purchase);
+		return purchase;
 	}
 
 	@Override
@@ -31,31 +50,29 @@ public class PurchaseServiceimpl implements PurchaseService {
 	}
 
 	@Override
-	public HashMap<String, Object> getPurchaseList(Search searchVO, String str) throws Exception {
-		return dao.getPurchaseList(searchVO, str);
+	public List<Purchase> getPurchaseList(Map<String, Object> map) throws Exception {
+		return dao.getPurchaseList(map);
 	}
 
 	@Override
-	public HashMap<String, Object> getSaleList(Search searchVO) throws Exception {
-		return dao.getSaleList(searchVO);
+	public Purchase updatePurchase(Purchase purchase) throws Exception {
+		dao.updatePurchase(purchase);
+		return purchase;
 	}
 
 	@Override
-	public Purchase updatePurchase(Purchase purchaseVO) throws Exception {
-		dao.updatePurchase(purchaseVO);
-		return purchaseVO;
+	public void updateTranCode(Purchase purchase) throws Exception {
+		dao.updateTranCode(purchase);
 	}
 
 	@Override
-	public void updateTranCode(Purchase purchaseVO) throws Exception {
-		dao.updateTranCode(purchaseVO);
-	}
-
-	@Override
-	public void deletePurchase(Purchase purchaseVO) throws Exception {
-		dao.deletePurchase(purchaseVO);
+	public void deletePurchase(int tranNo) throws Exception {
+		dao.deletePurchase(tranNo);
 	}
 	
-	
+	@Override
+	public int getTotalCount(Search search) throws Exception {
+		return dao.getTotalCount(search);
+	}
 
 }

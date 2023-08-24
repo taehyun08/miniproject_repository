@@ -1,5 +1,7 @@
 package com.model2.mvc.view.purchase;
 
+import java.sql.Date;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -31,7 +33,7 @@ public class AddPurchaseAction extends Action{
 		purchaseVO.setReceiverPhone(request.getParameter("receiverPhone"));
 		purchaseVO.setDivyAddr(request.getParameter("receiverAddr"));
 		purchaseVO.setDivyRequest(request.getParameter("receiverRequest"));
-		purchaseVO.setDivyDate(request.getParameter("receiverDate"));
+		purchaseVO.setDivyDate(Date.valueOf(request.getParameter("receiverDate")));
 		purchaseVO.setTranCode("2");
 		
 		System.out.println(purchaseVO);

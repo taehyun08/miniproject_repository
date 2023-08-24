@@ -1,20 +1,15 @@
 package com.model2.mvc.view.product;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import javax.websocket.Session;
 
 import com.model2.mvc.common.Page;
 import com.model2.mvc.common.Search;
 import com.model2.mvc.framework.Action;
 import com.model2.mvc.service.product.ProductService;
 import com.model2.mvc.service.product.impl.ProductServiceimpl;
-import com.model2.mvc.service.user.UserService;
-import com.model2.mvc.service.user.impl.UserServiceImpl;
 
 
 public class ListProductAction extends Action {
@@ -55,7 +50,7 @@ public class ListProductAction extends Action {
 		System.out.println("pageUnit = " + pageUnit);
 		
 		ProductService service=new ProductServiceimpl();
-		HashMap<String,Object> map=service.getProductList(searchVO);
+		Map<String,Object> map=service.getProductList(searchVO);
 		
 
 		Page p = new Page(currentPage, ((Integer)map.get("count")).intValue(),Integer.parseInt(pageUnit), Integer.parseInt(pageSize));
