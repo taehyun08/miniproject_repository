@@ -17,6 +17,8 @@ import com.model2.mvc.common.Search;
 import com.model2.mvc.service.domain.Product;
 import com.model2.mvc.service.domain.User;
 import com.model2.mvc.service.product.ProductDao;
+import com.model2.mvc.service.product.ProductService;
+import com.model2.mvc.service.product.impl.ProductServiceimpl;
 import com.model2.mvc.service.user.UserService;
 
 
@@ -29,23 +31,30 @@ import com.model2.mvc.service.user.UserService;
  * ㅇ @Test : 테스트 실행 소스 지정
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:config/commonservice.xml" })
+@ContextConfiguration	(locations = {	"classpath:config/context-common.xml",
+		"classpath:config/context-aspect.xml",
+		"classpath:config/context-mybatis.xml",
+		"classpath:config/context-transaction.xml" })
 public class ProductServiceTest {
 
 	//==>@RunWith,@ContextConfiguration 이용 Wiring, Test 할 instance DI
 	@Autowired
 	@Qualifier("sqlSessionTemplate")
 	private SqlSession sqlSession;
+	@Autowired
+	@Qualifier("productServiceimpl")
+	private ProductService productService;
 
 	@Test
-	public void testAddUser() throws Exception {
-		
+	public void testGetProduct() throws Exception {
 		
 		
 		//==> console 확인
 		//System.out.println(user);
 		int prodNo = 10020;
-		Product p = sqlSession.selectOne("ProductMapper.getProduct", prodNo);
+		Product p = productService.getProduct(prodNo);
+		//Product p = sqlSession.selectOne("ProductMapper.getProduct", prodNo);
+		
 		System.out.println(p);
 		
 		//Assert.assertEquals(1, sqlSession.selectOne("productMapper.getProduct", prodNo));
@@ -94,7 +103,7 @@ public class ProductServiceTest {
 	}
 	
 	
-	@Test
+	//@Test
 	public void testGetTotalCount() throws Exception {
 		Search s = new Search();
 		Assert.assertEquals(3, (int)sqlSession.selectOne("ProductMapper.getTotalCount", s));

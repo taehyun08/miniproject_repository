@@ -9,16 +9,17 @@ import org.springframework.stereotype.Service;
 
 import com.model2.mvc.common.Search;
 import com.model2.mvc.service.domain.Product;
+import com.model2.mvc.service.product.ProductDao;
 import com.model2.mvc.service.product.ProductService;
 
-@Service
+@Service("productServiceimpl")
 public class ProductServiceimpl implements ProductService {
 	
 	@Autowired
 	@Qualifier("productDaoImpl")
-	private ProductDaoImpl productDao;
+	private ProductDao productDao;
 	
-	public void setProductDao(ProductDaoImpl productDao) {
+	public void setProductDao(ProductDao productDao) {
 		this.productDao = productDao;
 	}
 

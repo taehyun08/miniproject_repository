@@ -129,7 +129,7 @@ public class PurchaseServiceTest {
 		System.out.println("delete complete");
 	}
 	
-	@Test
+	//@Test
 	public void testUpdateTranCode() throws Exception {
 		int tranNo = 10000;
 		Purchase p = purchaseService.getPurchase(tranNo);

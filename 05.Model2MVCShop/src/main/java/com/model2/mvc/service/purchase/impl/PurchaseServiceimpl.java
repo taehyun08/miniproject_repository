@@ -9,20 +9,22 @@ import org.springframework.stereotype.Service;
 
 import com.model2.mvc.common.Search;
 import com.model2.mvc.service.domain.Purchase;
+import com.model2.mvc.service.product.ProductDao;
 import com.model2.mvc.service.product.impl.ProductDaoImpl;
+import com.model2.mvc.service.purchase.PurchaseDao;
 import com.model2.mvc.service.purchase.PurchaseService;
 
-@Service("PurchaseServiceimpl")
+@Service("purchaseServiceimpl")
 public class PurchaseServiceimpl implements PurchaseService {
 	//field
 	
 	@Autowired
-	@Qualifier("PurchaseDaoImpl")
-	PurchaseDaoImpl dao;
+	@Qualifier("purchaseDaoImpl")
+	PurchaseDao dao;
 	
 	@Autowired
 	@Qualifier("productDaoImpl")
-	ProductDaoImpl prodDao;
+	ProductDao prodDao;
 	//constructor
 	public PurchaseServiceimpl() {
 		dao = new PurchaseDaoImpl();
