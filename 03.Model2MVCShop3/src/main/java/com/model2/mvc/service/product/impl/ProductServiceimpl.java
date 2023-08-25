@@ -5,6 +5,7 @@ import java.util.HashMap;
 import com.model2.mvc.common.Search;
 import com.model2.mvc.service.domain.Product;
 import com.model2.mvc.service.product.ProductService;
+<<<<<<< HEAD
 import com.model2.mvc.service.product.dao.ProductDAO;
 import com.model2.mvc.service.user.dao.UserDAO;
 
@@ -14,6 +15,15 @@ public class ProductServiceimpl implements ProductService {
 
 	public ProductServiceimpl() {
 		productDAO = new ProductDAO();
+=======
+import com.model2.mvc.service.user.dao.UserDAO;
+
+public class ProductServiceimpl implements ProductService {
+	
+	private ProductDaoImpl productDAO;
+
+	public ProductServiceimpl() {
+		productDAO = new ProductDaoImpl();
 	}
 
 	@Override

@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import com.model2.mvc.common.Search;
 import com.model2.mvc.service.domain.Purchase;
+<<<<<<< HEAD
 import com.model2.mvc.service.product.dao.ProductDAO;
 import com.model2.mvc.service.purchase.PurchaseService;
 import com.model2.mvc.service.purchase.dao.PurchaseDAO;
@@ -16,6 +17,19 @@ public class PurchaseServiceimpl implements PurchaseService {
 	public PurchaseServiceimpl() {
 		dao = new PurchaseDAO();
 		prodDAO = new ProductDAO();
+=======
+import com.model2.mvc.service.product.impl.ProductDaoImpl;
+import com.model2.mvc.service.purchase.PurchaseService;
+import com.model2.mvc.service.purchase.dao.PurchaseDAO;
+
+public class PurchaseServiceimpl implements PurchaseService {
+	//field
+	PurchaseDAO dao;
+	ProductDaoImpl prodDAO;
+	//constructor
+	public PurchaseServiceimpl() {
+		dao = new PurchaseDAO();
+		prodDAO = new ProductDaoImpl();
 	}
 	
 	//method
