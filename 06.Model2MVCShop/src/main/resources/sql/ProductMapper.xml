@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ProductMapper">
+ 	
+ 	
+	<resultMap id="productSelectMap" type="com.model2.mvc.service.domain.Product">
+		<result property="prodNo" 		column="prod_no" 			jdbcType="NUMERIC"/>
+		<result property="prodName"		column="prod_name" 			jdbcType="VARCHAR" />
+		<result property="prodDetail"	column="prod_detail" 		jdbcType="VARCHAR" />
+		<result property="manuDate" 	column="manufacture_day"	jdbcType="VARCHAR" />
+		<result property="price" 		column="price" 				jdbcType="NUMERIC" />
+		<result property="fileName" 	column="image_file" 		jdbcType="VARCHAR" />
+		<result property="regDate" 		column="reg_date" 			jdbcType="DATE" />
+		<result property="views" 		column="views" 				jdbcType="NUMERIC"  />
+		<result property="stock" 		column="stock" 				jdbcType="NUMERIC" />
+		<result property="proTranCode"	column="tran_status_code"	jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<!-- SQL : INSERT -->
+	<insert 	id="addProduct"		parameterType="com.model2.mvc.service.domain.Product" >
+	 	INSERT 
+	 	INTO product (prod_no, prod_name, prod_detail, manufacture_day, price, image_file, reg_date, views, stock)
+	 	VALUES(seq_product_prod_no.nextval, #{prodName}, #{prodDetail}, #{manuDate}, #{price}, #{fileName}, SYSDATE, 0, #{stock})
+	 </insert>
+	 
+	 <!-- SQL : SELECT ONE -->
+	 <select 	id="getProduct"	parameterType="int"	resultMap="productSelectMap">
+		SELECT p.prod_no, p.prod_name, p.prod_detail, p.manufacture_day, p.price, p.image_file, p.reg_date, t.tran_status_code, p.views, p.stock
+		FROM product p
+		LEFT JOIN transaction t
+		ON p.prod_no = t.prod_no
+		WHERE p.prod_no = #{value}
+	 </select>
+	 
+	 <!-- SQL : UPDATE -->
+	 <update	id="updateProduct"	parameterType="com.model2.mvc.service.domain.Product"  >
+	 	UPDATE product 
+	 	<set>
+	 	prod_name = #{prodName},
+	 	prod_detail = #{prodDetail}, 
+	 	manufacture_day = #{manuDate}, 
+	 	price = #{price}, 
+	 	image_file = #{fileName}, 
+	 	stock = #{stock}  
+	 	</set>
+	 	WHERE prod_no = #{prodNo}
+	 </update>
+		 
+	<!-- SQL : SELECT LIST -->
+	<select  id="getProductList"  parameterType="com.model2.mvc.common.Search" 	resultMap="productSelectMap">
+		SELECT sub.*
+		FROM ( select p.prod_no, p.prod_name, p.prod_detail, p.manufacture_day, p.price, p.image_file, p.reg_date, t.tran_status_code,
+				p.views, p.stock, COUNT(*) OVER() as total_row,	ROW_NUMBER() OVER 
+				(
+					<choose>
+						<when test="orderBy == 'prodNo' or orderBy == null">
+							order by p.prod_no
+						</when>
+						<when test="orderBy == 'priceDesc'">
+							order by p.price DESC
+						</when>
+						<when test="orderBy == 'priceAsce'">
+							order by  p.price
+						</when>
+						<when test="orderBy == 'viewsDesc'">
+							order by p.views DESC
+						</when>
+						<when test="orderBy == 'nameAsce'">
+							order by p.prod_name
+						</when>
+					</choose>
+				) as r
+				from product p 
+				LEFT JOIN transaction t 
+				ON p.prod_no = t.prod_no
+				<if test="searchCondition != null and searchKeyword != ''">
+					<where>
+						<choose>
+							<when test="searchCondition.eqauls('0')">
+								p.prod_no = #{searchKeyword}
+							</when>
+							<when test="searchCondition.eqauls('1')">
+								p.prod_name LIKE '%' || #{searchKeyword} || '%'
+							</when>
+							<when test="searchCondition.eqauls('2')">
+								p.price = #{searchKeyword}
+							</when>
+						</choose>
+					</where>
+				</if>
+				) sub 
+		WHERE sub.r &gt;= #{startRowNum} AND sub.r &lt;= #{endRowNum}
+	 </select>
+	 	<!--  위 두번째 subQuery 의  
+	 			WHERE ROWNUM &lt;= #{endRowNum} ) 는
+	 			WHERE ROWNUM <= #{endRowNum} ) 의미이며..
+	 			< 는 keyword 로 &lt; 를	사용.
+	 			
+	 			<![CDATA[  ~~~  ]]> 를 이용하여 아래와 같이 사용  할 수 있다.
+	 			CDATA ==> Character Data 의 의미 Java 에서 \n 같은 특수문자 처리  
+
+				WHERE ROWNUM <![CDATA[ <=]]> #{endRowNum} )
+		-->
+	
+	<!-- SQL : SELECT ROW Count -->	 
+	 <select  id="getTotalCount"  parameterType="com.model2.mvc.common.Search"	 resultType="int">
+	  	SELECT COUNT(*)
+	  	FROM(	SELECT p.prod_no, p.prod_name, p.price
+						FROM product p
+						<if test="searchCondition != null">
+							<where>
+								<choose>
+									<when test="searchCondition.eqauls('0')">
+										p.prod_no = #{searchKeyword}
+									</when>
+									<when test="searchCondition.eqauls('1')">
+										p.prod_name LIKE '%' || #{searchKeyword} || '%'
+									</when>
+									<when test="searchCondition.eqauls('2')">
+										p.price = #{searchKeyword}
+									</when>
+								</choose>
+							</where>
+						</if> ) countTable		
+	 </select>
+	 
+</mapper>
