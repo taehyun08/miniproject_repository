@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="PurchaseMapper">
+ 	
+ 	
+	<resultMap id="purchaseSelectMap" type="com.model2.mvc.service.domain.Purchase">
+		<result property="tranNo" 				column="tran_no" 			jdbcType="NUMERIC" />
+		<result property="purchaseProd.prodNo" 	column="prod_no" 			jdbcType="NUMERIC"/>
+		<result property="buyer.userId" 		column="buyer_id"			jdbcType="VARCHAR"/>
+		<result property="paymentOption"		column="payment_option"		jdbcType="CHAR"/>
+		<result property="receiverName"			column="receiver_name" 		jdbcType="VARCHAR" />
+		<result property="receiverPhone"		column="receiver_phone" 	jdbcType="VARCHAR" />
+		<result property="divyAddr" 			column="dlvy_addr"			jdbcType="VARCHAR" />
+		<result property="divyRequest" 			column="dlvy_request" 		jdbcType="VARCHAR" />
+		<result property="tranCode" 			column="tran_status_code" 	jdbcType="CHAR" />
+		<result property="orderDate" 			column="order_date" 		jdbcType="DATE" />
+		<result property="divyDate" 			column="dlvy_date" 			jdbcType="DATE"  />
+	</resultMap>
+	
+	<!-- SQL : INSERT -->
+	<insert 	id="addPurchase"		parameterType="com.model2.mvc.service.domain.Purchase" >
+		INSERT 
+		INTO transaction (tran_no, prod_no, buyer_id, payment_option, receiver_name, receiver_phone, dlvy_addr, dlvy_request, tran_status_code, order_date, dlvy_date)
+		VALUES(
+			seq_transaction_tran_no.nextval, 
+			#{purchaseProd.prodNo:NUMERIC}, 
+			#{buyer.userId:VARCHAR}, 
+			#{paymentOption:CHAR}, 
+			#{receiverName:VARCHAR}, 
+			#{receiverPhone:VARCHAR}, 
+			#{divyAddr:VARCHAR}, 
+			#{divyRequest:VARCHAR}, 
+			#{tranCode:CHAR}, 
+			SYSDATE, 
+			#{divyDate:DATE}
+		)
+	 </insert>
+	 
+	 <!-- SQL : SELECT ONE -->
+	 <select 	id="getPurchase"	parameterType="int"	resultMap="purchaseSelectMap">
+	 	SELECT tran_no , prod_no, buyer_id, payment_option, receiver_name, receiver_phone, dlvy_addr, dlvy_request, tran_status_code,
+		order_date, dlvy_date
+		FROM transaction 
+		WHERE tran_no = #{value}
+	 </select>
+	 
+	 <!-- SQL : UPDATE -->
+	 <update	id="updatePurchase"	parameterType="com.model2.mvc.service.domain.Purchase" >
+		UPDATE transaction 
+		<set>
+		payment_option = #{paymentOption}, receiver_name = #{receiverName}, receiver_phone = #{receiverPhone}, dlvy_addr = #{divyAddr}, dlvy_request = #{divyRequest}, dlvy_date = #{divyDate}
+		</set>
+		WHERE tran_no = #{tranNo}
+	 </update>
+		 
+	<!-- SQL : SELECT LIST -->
+	<select  id="getPurchaseList"  parameterType="java.util.Map" 	resultMap="purchaseSelectMap">
+		SELECT sub.* 
+		FROM ( 
+			SELECT p.prod_name, t.tran_no , t.prod_no, t.buyer_id, t.payment_option, t.receiver_name, t.receiver_phone, t.dlvy_addr, t.dlvy_request, t.tran_status_code, t.order_date, t.dlvy_date, 
+			COUNT(*) OVER() as total_row, ROW_NUMBER() OVER (order by t.tran_no) as r
+			FROM product p, transaction t, users u 
+			WHERE p.prod_no = t.prod_no 
+				AND u.user_id = t.buyer_id 
+				AND u.user_id = #{userId} order by t.tran_no ) sub 
+		WHERE sub.r &gt;= #{search.startRowNum}
+			AND sub.r &lt;= #{search.endRowNum}
+	 </select>
+
+	<!-- SQL : SELECT ROW Count -->	 
+	 <select  id="getTotalCount"  parameterType="com.model2.mvc.common.Search"	 resultType="int">
+	  	SELECT COUNT(*)
+	  	FROM(	SELECT t.tran_no
+				FROM transaction t
+				) countTable		
+	 </select>
+	 <!-- purchase 마지막 refactoring -->
+	 <update	id="updateTranCode"	parameterType="com.model2.mvc.service.domain.Purchase" >
+		UPDATE transaction 
+		<set>
+		tran_status_code = 
+		<choose>
+			<when test="tranCode.trim().equals(&quot;2&quot;)">
+				'3'
+			</when>
+			<when test="tranCode.trim().equals(&quot;3&quot;)">
+				'4'
+			</when>
+		</choose>
+		</set>
+		<choose>
+			<when test="tranCode == '3'">
+				WHERE tran_no = #{tranNo}
+			</when>
+			<otherwise>
+				WHERE prod_no = #{purchaseProd.prodNo}
+			</otherwise>
+		</choose>
+	 </update>
+	 
+	 <delete id="deletePurchase"  parameterType="int">
+	 	DELETE transaction 
+	 	WHERE tran_no = #{value}
+	 </delete>
+	 
+</mapper>
