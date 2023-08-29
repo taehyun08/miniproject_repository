@@ -1,3 +1,5 @@
 /com/
 /config/
 /sql/
+/LogonCheckInterceptor.class
+/UserController.class
