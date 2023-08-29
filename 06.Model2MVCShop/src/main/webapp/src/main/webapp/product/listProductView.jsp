@@ -19,7 +19,7 @@ int viewPage = 5;
 		list=(ArrayList<Product>)map.get("list");
 	}
 	
-	int currentPage=searchVO.getPage();
+	int currentPage=searchVO.getCurrentPage();
 	
 	int totalPage=0;
 	if(total > 0) {

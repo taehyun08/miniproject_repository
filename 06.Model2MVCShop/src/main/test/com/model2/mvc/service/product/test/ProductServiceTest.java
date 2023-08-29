@@ -63,7 +63,7 @@ public class ProductServiceTest {
 	//@Test
 	public void testGetListProduct() throws Exception {
 		Search search = new Search();
-		search.setPage(3);
+		search.setCurrentPage(3);
 		search.setSearchCondition(null);
 		search.setSearchKeyword(null);
 		search.setStartRowNum(1);

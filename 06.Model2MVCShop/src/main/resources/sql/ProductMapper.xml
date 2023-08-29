@@ -29,10 +29,8 @@
 	 
 	 <!-- SQL : SELECT ONE -->
 	 <select 	id="getProduct"	parameterType="int"	resultMap="productSelectMap">
-		SELECT p.prod_no, p.prod_name, p.prod_detail, p.manufacture_day, p.price, p.image_file, p.reg_date, t.tran_status_code, p.views, p.stock
+		SELECT p.prod_no, p.prod_name, p.prod_detail, p.manufacture_day, p.price, p.image_file, p.reg_date, p.views, p.stock
 		FROM product p
-		LEFT JOIN transaction t
-		ON p.prod_no = t.prod_no
 		WHERE p.prod_no = #{value}
 	 </select>
 	 
@@ -53,8 +51,7 @@
 	<!-- SQL : SELECT LIST -->
 	<select  id="getProductList"  parameterType="com.model2.mvc.common.Search" 	resultMap="productSelectMap">
 		SELECT sub.*
-		FROM ( select p.prod_no, p.prod_name, p.prod_detail, p.manufacture_day, p.price, p.image_file, p.reg_date, t.tran_status_code,
-				p.views, p.stock, COUNT(*) OVER() as total_row,	ROW_NUMBER() OVER 
+		FROM ( select p.prod_no, p.prod_name, p.prod_detail, p.manufacture_day, p.price, p.image_file, p.reg_date, p.views, p.stock, COUNT(*) OVER() as total_row,	ROW_NUMBER() OVER 
 				(
 					<choose>
 						<when test="orderBy == 'prodNo' or orderBy == null">
@@ -75,18 +72,16 @@
 					</choose>
 				) as r
 				from product p 
-				LEFT JOIN transaction t 
-				ON p.prod_no = t.prod_no
 				<if test="searchCondition != null and searchKeyword != ''">
 					<where>
 						<choose>
-							<when test="searchCondition.eqauls('0')">
+							<when test="searchCondition == '0'">
 								p.prod_no = #{searchKeyword}
 							</when>
-							<when test="searchCondition.eqauls('1')">
+							<when test="searchCondition == '1'">
 								p.prod_name LIKE '%' || #{searchKeyword} || '%'
 							</when>
-							<when test="searchCondition.eqauls('2')">
+							<when test="searchCondition == '2'">
 								p.price = #{searchKeyword}
 							</when>
 						</choose>
@@ -114,13 +109,13 @@
 						<if test="searchCondition != null">
 							<where>
 								<choose>
-									<when test="searchCondition.eqauls('0')">
+									<when test="searchCondition == '0'">
 										p.prod_no = #{searchKeyword}
 									</when>
-									<when test="searchCondition.eqauls('1')">
+									<when test="searchCondition == '1'">
 										p.prod_name LIKE '%' || #{searchKeyword} || '%'
 									</when>
-									<when test="searchCondition.eqauls('2')">
+									<when test="searchCondition == '2'">
 										p.price = #{searchKeyword}
 									</when>
 								</choose>

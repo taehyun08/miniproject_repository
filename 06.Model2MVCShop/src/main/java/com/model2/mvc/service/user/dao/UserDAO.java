@@ -179,8 +179,8 @@ public class UserDAO {
 		sql = 	"SELECT * "+ 
 					"FROM (		SELECT inner_table. * ,  ROWNUM AS row_seq " +
 									" 	FROM (	"+sql+" ) inner_table "+
-									"	WHERE ROWNUM <="+search.getPage()*search.getPageUnit()+" ) " +
-					"WHERE row_seq BETWEEN "+((search.getPage()-1)*search.getPageUnit()+1) +" AND "+search.getPage()*search.getPageUnit();
+									"	WHERE ROWNUM <="+search.getCurrentPage()*search.getPageUnit()+" ) " +
+					"WHERE row_seq BETWEEN "+((search.getCurrentPage()-1)*search.getPageUnit()+1) +" AND "+search.getCurrentPage()*search.getPageUnit();
 		
 		System.out.println("UserDAO :: make SQL :: "+ sql);	
 		

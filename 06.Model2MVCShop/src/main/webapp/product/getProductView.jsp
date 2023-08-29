@@ -45,7 +45,7 @@
 		<td class="ct_write01">
 			<table width="100%" border="0" cellspacing="0" cellpadding="0">
 				<tr>
-					<td width="105">${ productVO.prodNo }</td>
+					<td width="105">${ product.prodNo }</td>
 				</tr>
 			</table>
 		</td>
@@ -58,7 +58,7 @@
 			상품명 <img src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle"/>
 		</td>
 		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">${ productVO.prodName }</td>
+		<td class="ct_write01">${ product.prodName }</td>
 	</tr>
 	<tr>
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
@@ -69,7 +69,7 @@
 		</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
-			<img src = "${ productVO.fileName }"/>
+			<img src = "${ product.fileName }"/>
 		</td>
 	</tr>
 	<tr>
@@ -80,7 +80,7 @@
 			상품상세정보 <img src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle"/>
 		</td>
 		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">${ productVO.prodDetail }</td>
+		<td class="ct_write01">${ product.prodDetail }</td>
 	</tr>
 	<tr>
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
@@ -88,7 +88,7 @@
 	<tr>
 		<td width="104" class="ct_write">제조일자</td>
 		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">${ productVO.manuDate }</td>
+		<td class="ct_write01">${ product.manuDate }</td>
 	</tr>
 	<tr>
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
@@ -96,7 +96,7 @@
 	<tr>
 		<td width="104" class="ct_write">가격</td>
 		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">${ productVO.price }</td>
+		<td class="ct_write01">${ product.price }</td>
 	</tr>
 	<tr>
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
@@ -104,14 +104,14 @@
 	<tr>
 		<td width="104" class="ct_write">등록일자</td>
 		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">${ productVO.regDate }</td>
+		<td class="ct_write01">${ product.regDate }</td>
 	</tr>
 	<tr>
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
 	</tr>.<tr>
 		<td width="104" class="ct_write">재고</td>
 		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">${ productVO.stock}</td>
+		<td class="ct_write01">${ product.stock}</td>
 	</tr>
 	<tr>
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
@@ -129,11 +129,11 @@
 					<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
 				</td>
 				<c:choose>
-					<c:when test ="${menu eq 'search' && (productVO.stock > 0) && userVO.role ne 'admin'}">
+					<c:when test ="${menu eq 'search' && (product.stock > 0) && userVO.role ne 'admin'}">
 						<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top: 3px;">
 							<c:choose>
 								<c:when test="${userVO.role eq 'user'}">
-									<a href="/addPurchaseView.do?prodNo=${productVO.prodNo}">구매</a>
+									<a href="/addPurchaseView.do?prodNo=${product.prodNo}">구매</a>
 								</c:when>
 								<c:when test="${empty userVO }">
 									<a href="/user/loginView.jsp">구매</a>
@@ -154,7 +154,7 @@
 					</c:when>
 					<c:when test="${menu eq 'manage'}">
 						<td background="/images/ct_btnbg02.gif" class="ct_btn01"	style="padding-top: 3px;">
-							<a href="/updateProductView.do?prodNo=${productVO.prodNo}&menu=manage">수정</a>
+							<a href="/updateProductView.do?prodNo=${product.prodNo}&menu=manage">수정</a>
 						</td>
 						<td width="14" height="23">
 							<img src="/images/ct_btnbg03.gif" width="14" height="23"/>

@@ -4,6 +4,7 @@ import java.util.Map;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ import com.model2.mvc.common.Search;
 import com.model2.mvc.service.domain.Product;
 import com.model2.mvc.service.domain.User;
 import com.model2.mvc.service.product.ProductService;
+import com.model2.mvc.service.product.impl.ProductServiceimpl;
 import com.model2.mvc.service.user.UserService;
 
 
@@ -67,7 +69,7 @@ public class ProductController {
 	}
 	
 	@RequestMapping("/getProduct.do")
-	public String getProduct( @RequestParam("prodNo") int prodNo, HttpServletRequest request, HttpServletResponse response , Model model ) throws Exception {
+	public String getProduct( @RequestParam("prodNo") int prodNo, @ModelAttribute("menu") String menu, HttpServletRequest request, HttpServletResponse response , Model model ) throws Exception {
 		
 		System.out.println("/getProduct.do");
 		//Business Logic
@@ -91,74 +93,58 @@ public class ProductController {
 		// Model 과 View 연결
 		model.addAttribute("product", product);
 		
-		return "forward:/product/getProduct.jsp";
+		return "forward:/product/getProductView.jsp";
+	}
+	
+	@RequestMapping("/listProduct.do")
+	public String listProduct( @ModelAttribute("search") Search search , @RequestParam("menu") String menu, Model model ) throws Exception{
+		System.out.println("/listProduct.do");
+		String orderBy = search.getOrderBy();
+		if(orderBy == null || orderBy.equals("")) {
+			search.setOrderBy("prodNo");
+		}
+		if(search.getCurrentPage() == 0) {
+			search.setCurrentPage(1);
+		}
+		int startRowNum = search.getCurrentPage() * pageSize - pageSize+1;
+		int endRowNum = startRowNum + pageSize - 1;
+		System.out.println("startRowNum :: " + startRowNum + "\nendRowNum:: " + endRowNum);
+		search.setStartRowNum(startRowNum);
+		search.setEndRowNum(endRowNum);
+		search.setPageUnit(pageSize);
+		System.out.println(search.getSearchCondition() + " " + search.getSearchKeyword());
+		Map<String, Object> map = productService.getProductList(search);
+		System.out.println(map);
+		//Business Logic
+		
+		Page p = new Page(search.getCurrentPage(), ((Integer)map.get("count")).intValue(), pageUnit, pageSize);
+		model.addAttribute("map", map);
+		model.addAttribute("page", p);
+		model.addAttribute("menu", menu);
+		// Model 과 View 연결
+		return "forward:/product/listProductView.jsp";
 	}
 	
 	@RequestMapping("/updateProductView.do")
-	public String updateProductView( @RequestParam("prodNo") int prodNo , Model model ) throws Exception{
+	public String updateProductView( @RequestParam("prodNo") int prodNo , Model model) throws Exception{
+
 		System.out.println("/updateProductView.do");
 		//Business Logic
 		Product product = productService.getProduct(prodNo);
-		// Model 과 View 연결
 		model.addAttribute("product", product);
-		return "forward:/product/updateProduct.jsp";
+		
+		return "forward:/product/updateProductView.jsp";
 	}
 	
-	@RequestMapping("/updateUser.do")
-	public String updateProduct( @ModelAttribute("product") Product product , Model model , HttpSession session) throws Exception{
+	@RequestMapping("/updateProduct.do")
+	public String updateProduct( @ModelAttribute("product") Product product , Model model) throws Exception{
 
 		System.out.println("/updateProduct.do");
 		//Business Logic
 		productService.updateProduct(product);
 		
-		return "redirect:/getProduct.do?prodNo=" + product.getProdNo();
+		return "forward:/getProduct.do?prodNo="+product.getProdNo();
 	}
 	
-	@RequestMapping("/loginView.do")
-	public String loginView() throws Exception{
-		
-		System.out.println("/loginView.do");
-
-		return "redirect:/user/loginView.jsp";
-	}
-	
-	/*
-	@RequestMapping("/login.do")
-	public String login(@ModelAttribute("user") User user , HttpSession session ) throws Exception{
-		System.out.println("/login.do");
-		//Business Logic
-		User dbUser=userService.getUser(user.getUserId());
-		
-		if( user.getPassword().equals(dbUser.getPassword())){
-			session.setAttribute("user", dbUser);
-		}
-		
-		return "redirect:/index.jsp";
-	}
-	*/
-	
-	@RequestMapping("/logout.do")
-	public String logout(HttpSession session ) throws Exception{
-		
-		System.out.println("/logout.do");
-		
-		session.invalidate();
-		
-		return "redirect:/index.jsp";
-	}
-	/*
-	@RequestMapping("/checkDuplication.do")
-	public String checkDuplication( @RequestParam("userId") String userId , Model model ) throws Exception{
-		
-		System.out.println("/checkDuplication.do");
-		//Business Logic
-		boolean result=userService.checkDuplication(userId);
-		// Model 과 View 연결
-		model.addAttribute("result", new Boolean(result));
-		model.addAttribute("userId", userId);
-
-		return "forward:/user/checkDuplication.jsp";
-	}
-	*/
 
 }

@@ -15,7 +15,7 @@ HashMap<String,Object> map=(HashMap<String,Object>)request.getAttribute("map");
 		list=(ArrayList<User>)map.get("list");
 	}
 	
-	int currentPage=searchVO.getPage();
+	int currentPage=searchVO.getCurrentPage();
 	
 	int totalPage=0;
 	if(total > 0) {

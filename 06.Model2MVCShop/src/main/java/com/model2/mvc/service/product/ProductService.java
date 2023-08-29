@@ -7,12 +7,12 @@ import com.model2.mvc.service.domain.Product;
 
 public interface ProductService {
 	
-	public Product addProduct(Product productVO) throws Exception;
+	public Product addProduct(Product product) throws Exception;
 	
 	public Product getProduct(int prod_no) throws Exception;
 	
-	public Map<String, Object> getProductList(Search searchVO) throws Exception;
+	public Map<String, Object> getProductList(Search search) throws Exception;
 	
-	public int updateProduct(Product productVO) throws Exception;
+	public int updateProduct(Product product) throws Exception;
 	
 }

@@ -56,19 +56,19 @@ function fncGetProductList(){
 	<tr>
 		<td align="right">
 			<ul>
-	        <a href="/listProduct.do?currentPage=1&menu=${menu}&searchCondition=${searchVO.searchCondition}&searchKeyword=${searchVO.searchKeyword}&order=priceDesc">가격높은순</a>
-	        <a href="/listProduct.do?currentPage=1&menu=${menu}&searchCondition=${searchVO.searchCondition}&searchKeyword=${searchVO.searchKeyword}&order=priceAsce">가격낮은순</a>
-	        <a href="/listProduct.do?currentPage=1&menu=${menu}&searchCondition=${searchVO.searchCondition}&searchKeyword=${searchVO.searchKeyword}&order=viewsDesc">가장많이본상품</a>
-	        <a href="/listProduct.do?currentPage=1&menu=${menu}&searchCondition=${searchVO.searchCondition}&searchKeyword=${searchVO.searchKeyword}&order=nameAsce">이름순</a>
+	        <a href="/listProduct.do?currentPage=1&menu=${menu}&searchCondition=${search.searchCondition}&searchKeyword=${search.searchKeyword}&orderBy=priceDesc">가격높은순</a>
+	        <a href="/listProduct.do?currentPage=1&menu=${menu}&searchCondition=${search.searchCondition}&searchKeyword=${search.searchKeyword}&orderBy=priceAsce">가격낮은순</a>
+	        <a href="/listProduct.do?currentPage=1&menu=${menu}&searchCondition=${search.searchCondition}&searchKeyword=${search.searchKeyword}&orderBy=viewsDesc">가장많이본상품</a>
+	        <a href="/listProduct.do?currentPage=1&menu=${menu}&searchCondition=${search.searchCondition}&searchKeyword=${search.searchKeyword}&orderBy=nameAsce">이름순</a>
 	    	</ul>
     	</td>
 		<td align="right">
 			<select name="searchCondition" class="ct_input_g" style="width:80px">
-				<option value="0" ${searchVO.searchCondition eq '0' ? "selected" : '' }>상품번호</option>
-				<option value="1" ${searchVO.searchCondition eq '1' ? "selected" : '' }>상품명</option>
-				<option value="2" ${searchVO.searchCondition eq '2' ? "selected" : '' }>상품가격</option>
+				<option value="0" ${search.searchCondition eq '0' ? "selected" : '' }>상품번호</option>
+				<option value="1" ${search.searchCondition eq '1' ? "selected" : '' }>상품명</option>
+				<option value="2" ${search.searchCondition eq '2' ? "selected" : '' }>상품가격</option>
 			</select>
-			<input type="text" name="searchKeyword" value="${empty searchVO.searchKeyword ? '' : searchVO.searchKeyword}" class="ct_input_g" style="width:200px; height:19px" />
+			<input type="text" name="searchKeyword" value="${empty search.searchKeyword ? '' : search.searchKeyword}" class="ct_input_g" style="width:200px; height:19px" />
 		</td>
 	
 		
@@ -93,7 +93,7 @@ function fncGetProductList(){
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px;">
 	<tr>
-		<td colspan="11" >전체  ${pageVO.maxPage} 건수, 현재 ${searchVO.page} 페이지</td>
+		<td colspan="11" >전체  ${page.maxPage} 건수, 현재 ${search.currentPage} 페이지</td>
 	</tr>
 	<tr>
 		<td class="ct_list_b" width="100">No</td>
@@ -111,7 +111,7 @@ function fncGetProductList(){
 	<tr>
 		<td colspan="11" bgcolor="808285" height="1"></td>
 	</tr>
-	<c:set var="no" value="${searchVO.pageUnit }"/>
+	<c:set var="no" value="${search.pageUnit }"/>
 	<c:forEach var="vo" items="${map.list}">
 	
 	<tr class="ct_list_pop">
@@ -165,16 +165,16 @@ function fncGetProductList(){
 		<td align="center">
 		
 		<%-- 여기 바꿔야함 링크 뒤에 order부분 --%>
-		<c:if test="${pageVO.beginUnitPage != 1}">
-			<a href="/listProduct.do?currentPage=${pageVO.beginUnitPage-5}&menu=${menu}&searchCondition=${searchVO.searchCondition}&searchKeyword=${searchVO.searchKeyword}&order=${searchVO.orderBy}">이전</a>
+		<c:if test="${page.beginUnitPage != 1}">
+			<a href="/listProduct.do?currentPage=${page.beginUnitPage-5}&menu=${menu}&searchCondition=${search.searchCondition}&searchKeyword=${search.searchKeyword}&orderBy=${search.orderBy}">이전</a>
 		</c:if>
 		
-		<c:forEach var="i" begin="${pageVO.beginUnitPage}" end="${pageVO.endUnitPage}">
-			<a href="/listProduct.do?currentPage=${i}&menu=${menu}&searchCondition=${searchVO.searchCondition}&searchKeyword=${searchVO.searchKeyword}&order=${searchVO.orderBy}">${i}</a>
+		<c:forEach var="i" begin="${page.beginUnitPage}" end="${page.endUnitPage}">
+			<a href="/listProduct.do?currentPage=${i}&menu=${menu}&searchCondition=${search.searchCondition}&searchKeyword=${search.searchKeyword}&orderBy=${search.orderBy}">${i}</a>
 		</c:forEach>
 		
-		<c:if test="${pageVO.endUnitPage != pageVO.maxPage}">
-			<a href="/listProduct.do?currentPage=${pageVO.beginUnitPage+5}&menu=${menu}&searchCondition=${searchVO.searchCondition}&searchKeyword=${searchVO.searchKeyword}&order=${searchVO.orderBy}">다음</a>
+		<c:if test="${page.endUnitPage != page.maxPage}">
+			<a href="/listProduct.do?currentPage=${page.beginUnitPage+5}&menu=${menu}&searchCondition=${search.searchCondition}&searchKeyword=${search.searchKeyword}&orderBy=${search.orderBy}">다음</a>
 		</c:if>
     	</td>
 	</tr>

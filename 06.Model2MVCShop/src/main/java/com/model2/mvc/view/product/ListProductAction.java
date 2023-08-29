@@ -23,8 +23,8 @@ public class ListProductAction extends Action {
 		if(request.getParameter("currentPage") != null)
 			currentPage=Integer.parseInt(request.getParameter("currentPage"));
 		
-		searchVO.setPage(currentPage);
-		String orderBy = request.getParameter("order");
+		searchVO.setCurrentPage(currentPage);
+		String orderBy = request.getParameter("orderBy");
 		String searchKeyword = request.getParameter("searchKeyword");
 		String menu = request.getParameter("menu");
 		if(searchKeyword == null) {

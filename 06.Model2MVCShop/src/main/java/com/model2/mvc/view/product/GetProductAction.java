@@ -20,9 +20,6 @@ public class GetProductAction extends Action{
 												HttpServletResponse response) throws Exception {
 		int prod_no =Integer.parseInt(request.getParameter("prodNo"));
 		String menu = (String)request.getParameter("menu");
-		String j = (String)request.getAttribute("jsp");
-		System.out.println(j);
-		
 		ProductService service=new ProductServiceimpl();
 		Product vo = service.getProduct(prod_no);
 		

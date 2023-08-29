@@ -50,7 +50,7 @@ public class LogonCheckInterceptor extends HandlerInterceptorAdapter {
 				request.getRequestDispatcher("/index.jsp").forward(request, response);
 				System.out.println("[ 로그인 상태.. 로그인 후 불필요 한 요구.... ]");
 				System.out.println("[ LogonCheckInterceptor end........]\n");
-				return false;
+				return true;
 			}
 			
 			System.out.println("[ 로그인 상태 ... ]");
@@ -70,7 +70,7 @@ public class LogonCheckInterceptor extends HandlerInterceptorAdapter {
 			request.getRequestDispatcher("/index.jsp").forward(request, response);
 			System.out.println("[ 로그인 이전 ... ]");
 			System.out.println("[ LogonCheckInterceptor end........]\n");
-			return false;
+			return true;
 		}
 	}
 }//end of class

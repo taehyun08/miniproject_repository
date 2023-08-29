@@ -12,7 +12,7 @@ import com.model2.mvc.service.domain.Product;
 import com.model2.mvc.service.product.ProductDao;
 import com.model2.mvc.service.product.ProductService;
 
-@Service("productServiceimpl")
+@Service("productServiceImpl")
 public class ProductServiceimpl implements ProductService {
 	
 	@Autowired
@@ -28,9 +28,9 @@ public class ProductServiceimpl implements ProductService {
 	}
 
 	@Override
-	public Product addProduct(Product productVO) throws Exception {
-		productDao.insertProduct(productVO);
-		return productVO;
+	public Product addProduct(Product product) throws Exception {
+		productDao.insertProduct(product);
+		return product;
 	}
 
 	@Override
@@ -47,8 +47,8 @@ public class ProductServiceimpl implements ProductService {
 	}
 
 	@Override
-	public int updateProduct(Product productVO) throws Exception {
-		return productDao.updateProduct(productVO);
+	public int updateProduct(Product product) throws Exception {
+		return productDao.updateProduct(product);
 	}
 	
 

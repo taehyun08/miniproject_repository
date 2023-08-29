@@ -3,7 +3,7 @@ package com.model2.mvc.common;
 
 public class Search {
 	
-	private int page;
+	private int currentPage;
 	String searchCondition;
 	String searchKeyword;
 	String orderBy;
@@ -21,11 +21,11 @@ public class Search {
 		this.pageUnit = pageUnit;
 	}
 	
-	public int getPage() {
-		return page;
+	public int getCurrentPage() {
+		return currentPage;
 	}
-	public void setPage(int page) {
-		this.page = page;
+	public void setCurrentPage(int currentPage) {
+		this.currentPage = currentPage;
 	}
 
 	public String getSearchCondition() {

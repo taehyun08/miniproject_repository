@@ -9,6 +9,8 @@ public class Page {
 	private int maxPage;			// 최대 페이지 번호(전체 페이지)
 	private int beginUnitPage;	//화면에 보여지는 페이지 번호의 최소수
 	private int endUnitPage;	//화면에 보여지는 페이지 번호의 최대수
+	
+	public Page() {}
 
 	public Page(int currentPage, int totalCount, int pageUnit, int pageSize) {
 		this.totalCount = totalCount;
