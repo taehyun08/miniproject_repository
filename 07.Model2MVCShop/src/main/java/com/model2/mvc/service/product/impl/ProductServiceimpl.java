@@ -29,6 +29,7 @@ public class ProductServiceimpl implements ProductService {
 
 	@Override
 	public Product addProduct(Product product) throws Exception {
+		product.setManuDate(product.getManuDate().replace("-", ""));
 		productDao.insertProduct(product);
 		return product;
 	}

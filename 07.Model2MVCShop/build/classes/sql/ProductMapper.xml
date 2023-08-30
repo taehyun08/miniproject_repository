@@ -17,7 +17,6 @@
 		<result property="regDate" 		column="reg_date" 			jdbcType="DATE" />
 		<result property="views" 		column="views" 				jdbcType="NUMERIC"  />
 		<result property="stock" 		column="stock" 				jdbcType="NUMERIC" />
-		<result property="proTranCode"	column="tran_status_code"	jdbcType="VARCHAR" />
 	</resultMap>
 	
 	<!-- SQL : INSERT -->

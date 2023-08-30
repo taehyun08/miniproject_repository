@@ -22,7 +22,7 @@ function fncGetProductList(){
 
 <div style="width:98%; margin-left:10px;">
 
-<form name="detailForm" action="/listProduct.do?menu=${menu}" method="post">
+<form name="detailForm" action="/product/listProduct?menu=${menu}" method="post">
 
 <table width="100%" height="37" border="0" cellpadding="0"	cellspacing="0">
 	<tr>
@@ -56,10 +56,10 @@ function fncGetProductList(){
 	<tr>
 		<td align="right">
 			<ul>
-	        <a href="/listProduct.do?currentPage=1&menu=${menu}&searchCondition=${search.searchCondition}&searchKeyword=${search.searchKeyword}&orderBy=priceDesc">가격높은순</a>
-	        <a href="/listProduct.do?currentPage=1&menu=${menu}&searchCondition=${search.searchCondition}&searchKeyword=${search.searchKeyword}&orderBy=priceAsce">가격낮은순</a>
-	        <a href="/listProduct.do?currentPage=1&menu=${menu}&searchCondition=${search.searchCondition}&searchKeyword=${search.searchKeyword}&orderBy=viewsDesc">가장많이본상품</a>
-	        <a href="/listProduct.do?currentPage=1&menu=${menu}&searchCondition=${search.searchCondition}&searchKeyword=${search.searchKeyword}&orderBy=nameAsce">이름순</a>
+	        <a href="/product/listProduct?currentPage=1&menu=${menu}&searchCondition=${search.searchCondition}&searchKeyword=${search.searchKeyword}&orderBy=priceDesc">가격높은순</a>
+	        <a href="/product/listProduct?currentPage=1&menu=${menu}&searchCondition=${search.searchCondition}&searchKeyword=${search.searchKeyword}&orderBy=priceAsce">가격낮은순</a>
+	        <a href="/product/listProduct?currentPage=1&menu=${menu}&searchCondition=${search.searchCondition}&searchKeyword=${search.searchKeyword}&orderBy=viewsDesc">가장많이본상품</a>
+	        <a href="/product/listProduct?currentPage=1&menu=${menu}&searchCondition=${search.searchCondition}&searchKeyword=${search.searchKeyword}&orderBy=nameAsce">이름순</a>
 	    	</ul>
     	</td>
 		<td align="right">
@@ -119,7 +119,7 @@ function fncGetProductList(){
 		<c:set var="no" value="${no - 1}"/>
 		<td></td>
 		<td align="left">
-			<a href="/getProduct.do?prodNo=${vo.prodNo}&menu=${menu}">${vo.prodName}</a>
+			<a href="/product/getProduct?prodNo=${vo.prodNo}&menu=${menu}">${vo.prodName}</a>
 		</td>
 		<td></td>
 		<td align="left">${vo.price}</td>
@@ -138,7 +138,7 @@ function fncGetProductList(){
 			<c:when test="${proTranCode eq '2'}">
 					구매완료
 					<c:if test="${menu eq 'manage'}">
-						<a href="/updateTranCodeByProd.do?prodNo=${vo.prodNo}&tranCode=2">배송하기</a>
+						<a href="/product/updateTranCodeByProd?prodNo=${vo.prodNo}&tranCode=2">배송하기</a>
 					</c:if>
 			</c:when>
 			<c:when test="${proTranCode eq '3'}">
@@ -166,15 +166,15 @@ function fncGetProductList(){
 		
 		<%-- 여기 바꿔야함 링크 뒤에 order부분 --%>
 		<c:if test="${page.beginUnitPage != 1}">
-			<a href="/listProduct.do?currentPage=${page.beginUnitPage-5}&menu=${menu}&searchCondition=${search.searchCondition}&searchKeyword=${search.searchKeyword}&orderBy=${search.orderBy}">이전</a>
+			<a href="/product/listProduct?currentPage=${page.beginUnitPage-5}&menu=${menu}&searchCondition=${search.searchCondition}&searchKeyword=${search.searchKeyword}&orderBy=${search.orderBy}">이전</a>
 		</c:if>
 		
 		<c:forEach var="i" begin="${page.beginUnitPage}" end="${page.endUnitPage}">
-			<a href="/listProduct.do?currentPage=${i}&menu=${menu}&searchCondition=${search.searchCondition}&searchKeyword=${search.searchKeyword}&orderBy=${search.orderBy}">${i}</a>
+			<a href="/product/listProduct?currentPage=${i}&menu=${menu}&searchCondition=${search.searchCondition}&searchKeyword=${search.searchKeyword}&orderBy=${search.orderBy}">${i}</a>
 		</c:forEach>
 		
 		<c:if test="${page.endUnitPage != page.maxPage}">
-			<a href="/listProduct.do?currentPage=${page.beginUnitPage+5}&menu=${menu}&searchCondition=${search.searchCondition}&searchKeyword=${search.searchKeyword}&orderBy=${search.orderBy}">다음</a>
+			<a href="/product/listProduct?currentPage=${page.beginUnitPage+5}&menu=${menu}&searchCondition=${search.searchCondition}&searchKeyword=${search.searchKeyword}&orderBy=${search.orderBy}">다음</a>
 		</c:if>
     	</td>
 	</tr>

@@ -47,7 +47,7 @@ function fncAddProduct(){
 	var queryString = window.location.search;
 	var searchParams = new URLSearchParams(queryString);
 	var paramValue = searchParams.get("prodNo");
-	document.detailForm.action='/updateProduct.do?prodNo='+paramValue+'&menu=ok';
+	document.detailForm.action='/product/updateProduct?prodNo='+paramValue+'&menu=ok';
 	document.detailForm.submit();
 }
 -->

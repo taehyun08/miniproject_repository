@@ -27,7 +27,8 @@ public class ProductDaoImpl implements ProductDao {
 	
 	public int insertProduct(Product product) throws Exception {
 		System.out.println("insertProduct 호출완료");
-		return sqlSession.insert("productMapper.addProduct",product);
+		System.out.println("insertProduct의 product :: " + product);
+		return sqlSession.insert("ProductMapper.addProduct",product);
 	}
 
 	public Product findProduct(int prodNo) throws Exception {
