@@ -1,5 +1,7 @@
 package com.model2.mvc.web.purchase;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.Cookie;
@@ -82,46 +84,26 @@ public class PurchaseController {
 		
 		return modelAndView;
 	}
-	// 여기부터 안함
 	@RequestMapping("/getPurchase.do")
-	public ModelAndView getPurchase( @RequestParam("prodNo") int prodNo, @ModelAttribute("menu") String menu, HttpServletRequest request, HttpServletResponse response , Model model ) throws Exception {
+	public ModelAndView getPurchase( @RequestParam("tranNo") int tranNo) throws Exception {
 		
 		System.out.println("/getProduct.do");
 		//Business Logic
-		Product product = productService.getProduct(prodNo);
+		ModelAndView modelAndView = new ModelAndView();
+		Purchase purchase = purchaseService.getPurchase(tranNo);
 		
-		String cookieValue = "";
-		Cookie[] cookies = request.getCookies();
-		if(cookies != null) {
-			for(Cookie c : cookies) {
-				if(c.getName().equals("history")) {
-					cookieValue = c.getValue();
-				}
-			}
-		}
-		cookieValue += "/" + product.getProdNo();
-		
-		Cookie cookie = new Cookie("history", cookieValue);
-		cookie.setMaxAge(3600);
-		response.addCookie(cookie);
 		
 		// Model 과 View 연결
-		model.addAttribute("product", product);
+		modelAndView.addObject("purchase", purchase);
+		modelAndView.setViewName("forward:/purchase/getPurchase.jsp");
 		
 		
-		
-		ModelAndView modelAndView = new ModelAndView();
 		return modelAndView;
-		//return "forward:/product/getProductView.jsp";
 	}
 	
-	@RequestMapping("/listProduct.do")
-	public String listProduct( @ModelAttribute("search") Search search , @RequestParam("menu") String menu, Model model ) throws Exception{
-		System.out.println("/listProduct.do");
-		String orderBy = search.getOrderBy();
-		if(orderBy == null || orderBy.equals("")) {
-			search.setOrderBy("prodNo");
-		}
+	@RequestMapping("/listPurchase.do")
+	public ModelAndView listPurchase( @ModelAttribute("search") Search search , @RequestParam String userId) throws Exception{
+		System.out.println("/listPurchase.do");
 		if(search.getCurrentPage() == 0) {
 			search.setCurrentPage(1);
 		}
@@ -132,38 +114,92 @@ public class PurchaseController {
 		search.setEndRowNum(endRowNum);
 		search.setPageUnit(pageSize);
 		System.out.println(search.getSearchCondition() + " " + search.getSearchKeyword());
-		Map<String, Object> map = productService.getProductList(search);
-		System.out.println(map);
-		//Business Logic
+		Map<String, Object> inputMap = new HashMap<>();
+		List<Purchase> list = purchaseService.getPurchaseList(inputMap);
+		int count = purchaseService.getTotalCount(search);
 		
-		Page p = new Page(search.getCurrentPage(), ((Integer)map.get("count")).intValue(), pageUnit, pageSize);
-		model.addAttribute("map", map);
-		model.addAttribute("page", p);
-		model.addAttribute("menu", menu);
+		Map<String,Object> resultMap = new HashMap<>();
+		resultMap.put("list", list);
+		resultMap.put("count", count);
+		//Business Logic
+		ModelAndView modelAndView = new ModelAndView();
+		
+		Page p = new Page(search.getCurrentPage(), ((Integer)resultMap.get("count")).intValue(), pageUnit, pageSize);
+		modelAndView.addObject("map", resultMap);
+		modelAndView.addObject("page", p);
+		modelAndView.setViewName("forward:/purchase/listPurchase.jsp");
 		// Model 과 View 연결
-		return "forward:/product/listProductView.jsp";
+		return modelAndView;
 	}
 	
-	@RequestMapping("/updateProductView.do")
-	public String updateProductView( @RequestParam("prodNo") int prodNo , Model model) throws Exception{
+	@RequestMapping("/updatePurchaseView.do")
+	public ModelAndView updatePurchaseView( @RequestParam("tranNo") int tranNo) throws Exception{
 
-		System.out.println("/updateProductView.do");
+		System.out.println("/updatePurchaseView.do");
 		//Business Logic
-		Product product = productService.getProduct(prodNo);
-		model.addAttribute("product", product);
+		Purchase purchase = purchaseService.getPurchase(tranNo);
 		
-		return "forward:/product/updateProductView.jsp";
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.addObject("purchase", purchase);
+		modelAndView.setViewName("forward:/purchase/updatePurchaseView.jsp");
+		
+		return modelAndView;
 	}
 	
-	@RequestMapping("/updateProduct.do")
-	public String updateProduct( @ModelAttribute("product") Product product , Model model) throws Exception{
+	@RequestMapping("/updatePurchase.do")
+	public ModelAndView updatePurchase( @ModelAttribute("purchase") Purchase purchase) throws Exception{
 
-		System.out.println("/updateProduct.do");
+		System.out.println("/updatePurchase.do");
 		//Business Logic
-		productService.updateProduct(product);
+		Purchase returnPurchase = purchaseService.updatePurchase(purchase);
 		
-		return "forward:/getProduct.do?prodNo="+product.getProdNo();
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.addObject("purchase", returnPurchase);
+		modelAndView.setViewName("forward:/getPurchase.do?tranNo=" + purchase.getTranNo());
+		
+		return modelAndView;
 	}
 	
+	@RequestMapping("/updateTranCodeByProd.do")
+	public ModelAndView updateTranCodeByProd( @ModelAttribute Product product, @RequestParam String tranCode) throws Exception{
+
+		System.out.println("/updateTranCodeByProd.do");
+		//Business Logic
+		Purchase purchase = new Purchase();
+		purchase.setPurchaseProd(product);
+		purchase.setTranCode(tranCode);
+		
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.addObject("purchase", purchase);
+		modelAndView.setViewName("forward:/listProduct.do?menu=manage");
+		
+		return modelAndView;
+	}
+	
+	@RequestMapping("/updateTranCode.do")
+	public ModelAndView updateTranCode( @ModelAttribute Purchase purchase) throws Exception{
+
+		System.out.println("/updateTranCode.do");
+		//Business Logic
+		purchaseService.updateTranCode(purchase);
+		
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("forward:/listPurchase.do");
+		
+		return modelAndView;
+	}
+	
+	@RequestMapping("/deletePurchase.do")
+	public ModelAndView deletePurchase( @RequestParam int tranNo) throws Exception{
+
+		System.out.println("/deletePurchase.do");
+		//Business Logic
+		purchaseService.deletePurchase(tranNo);
+		
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("forward:/listPurchase.do");
+		
+		return modelAndView;
+	}
 
 }
