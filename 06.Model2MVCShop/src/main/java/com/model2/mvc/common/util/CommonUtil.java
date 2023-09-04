@@ -10,7 +10,7 @@ public class CommonUtil {
 	///Field
 	
 	///Constructor
-	
+	 
 	///Method
 	public static String null2str(String org, String converted) {
 		if (org == null || org.trim().length() == 0)

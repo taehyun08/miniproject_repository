@@ -2,7 +2,7 @@ package com.model2.mvc.common;
 
 
 public class Search {
-	
+	 
 	private int currentPage;
 	String searchCondition;
 	String searchKeyword;

@@ -16,7 +16,7 @@ public class HttpUtil {
 			throw new RuntimeException("forward ¿À·ù : " + ex);
 		}
 	}
-	
+	 
 	public static void redirect(HttpServletResponse response, String path){
 		try{
 			response.sendRedirect(path);

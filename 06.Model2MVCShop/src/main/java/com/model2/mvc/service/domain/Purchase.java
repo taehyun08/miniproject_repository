@@ -4,7 +4,7 @@ import java.sql.Date;
 
 
 public class Purchase {
-	
+	 
 	private User buyer;
 	private String divyAddr;
 	private Date divyDate;

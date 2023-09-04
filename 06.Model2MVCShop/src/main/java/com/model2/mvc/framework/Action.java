@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 public abstract class Action {
 	
 	private ServletContext servletContext;
-	
+	 
 	public Action(){
 	}
 	
