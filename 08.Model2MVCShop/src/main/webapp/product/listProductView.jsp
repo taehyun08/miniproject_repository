@@ -2,20 +2,57 @@
 <%@ taglib prefix ="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 
-
+<!DOCTYPE html>
 <html>
 <head>
-<title>상품 목록조회</title>
+	<meta charset="EUC-KR">
+	<title>상품 목록조회</title>
+	
+	<link rel="stylesheet" href="/css/admin.css" type="text/css">
+	<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+	<script type="text/javascript">
+	
+		function fncGetProductList() {
+			
+			$("form").attr("method" , "POST").attr("action" , "/product/listProduct?menu=${menu}").submit();
+		}
+		
+		
+		
+		$(function() {
+			//==> 검색 Event 연결처리부분
+			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+			//==> 1 과 3 방법 조합 : $("tagName.className:filter함수") 사용함. 
+			 $( "td.ct_btn01:contains('검색')" ).on("click" , function() {
+				//Debug..
+				//alert(  $( "td.ct_btn01:contains('검색')" ).html() );
+				fncGetProductList();
+			});
+			
+			
+			$( ".ct_list_pop td:nth-child(3)" ).css("color" , "red");
+			$("h7").css("color" , "red");
+			
+			
+			//==> 아래와 같이 정의한 이유는 ??
+			//==> 아래의 주석을 하나씩 풀어 가며 이해하세요.					
+			$(".ct_list_pop:nth-child(4n+6)" ).css("background-color" , "whitesmoke");
+			//console.log ( $(".ct_list_pop:nth-child(1)" ).html() );
+			//console.log ( $(".ct_list_pop:nth-child(2)" ).html() );
+			//console.log ( $(".ct_list_pop:nth-child(3)" ).html() );
+			//console.log ( $(".ct_list_pop:nth-child(4)" ).html() ); //==> ok
+			//console.log ( $(".ct_list_pop:nth-child(5)" ).html() ); 
+			//console.log ( $(".ct_list_pop:nth-child(6)" ).html() ); //==> ok
+			//console.log ( $(".ct_list_pop:nth-child(7)" ).html() ); 
+			
+		});	
 
-<link rel="stylesheet" href="/css/admin.css" type="text/css">
-
-<script type="text/javascript">
-<!--
-function fncGetProductList(){
-	document.detailForm.submit();
-}
--->
-</script>
+	
+	
+	
+	
+	
+	</script>
 </head>
 
 <body bgcolor="#ffffff" text="#000000">
@@ -54,12 +91,12 @@ function fncGetProductList(){
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px;">
 	<tr>
-		<td align="right">
+		<td align="right" id="order">
 			<ul>
-	        <a href="/product/listProduct?currentPage=1&menu=${menu}&searchCondition=${search.searchCondition}&searchKeyword=${search.searchKeyword}&orderBy=priceDesc">가격높은순</a>
-	        <a href="/product/listProduct?currentPage=1&menu=${menu}&searchCondition=${search.searchCondition}&searchKeyword=${search.searchKeyword}&orderBy=priceAsce">가격낮은순</a>
-	        <a href="/product/listProduct?currentPage=1&menu=${menu}&searchCondition=${search.searchCondition}&searchKeyword=${search.searchKeyword}&orderBy=viewsDesc">가장많이본상품</a>
-	        <a href="/product/listProduct?currentPage=1&menu=${menu}&searchCondition=${search.searchCondition}&searchKeyword=${search.searchKeyword}&orderBy=nameAsce">이름순</a>
+		        <a href="/product/listProduct?currentPage=1&menu=${menu}&searchCondition=${search.searchCondition}&searchKeyword=${search.searchKeyword}&orderBy=priceDesc">가격높은순</a>
+		        <a href="/product/listProduct?currentPage=1&menu=${menu}&searchCondition=${search.searchCondition}&searchKeyword=${search.searchKeyword}&orderBy=priceAsce">가격낮은순</a>
+		        <a href="/product/listProduct?currentPage=1&menu=${menu}&searchCondition=${search.searchCondition}&searchKeyword=${search.searchKeyword}&orderBy=viewsDesc">가장많이본상품</a>
+		        <a href="/product/listProduct?currentPage=1&menu=${menu}&searchCondition=${search.searchCondition}&searchKeyword=${search.searchKeyword}&orderBy=nameAsce">이름순</a>
 	    	</ul>
     	</td>
 		<td align="right">
@@ -79,7 +116,7 @@ function fncGetProductList(){
 						<img src="/images/ct_btnbg01.gif" width="17" height="23">
 					</td>
 					<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top:3px;">
-						<a href="javascript:fncGetProductList();">검색</a>
+						검색
 					</td>
 					<td width="14" height="23">
 						<img src="/images/ct_btnbg03.gif" width="14" height="23">
@@ -162,7 +199,7 @@ function fncGetProductList(){
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px;">
 	<tr>
-		<td align="center">
+		<td align="center" id="page">
 		
 		<%-- 여기 바꿔야함 링크 뒤에 order부분 --%>
 		<c:if test="${page.beginUnitPage != 1}">

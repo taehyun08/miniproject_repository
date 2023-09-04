@@ -6,10 +6,44 @@
 
 <html>
 <head>
+	<meta charset="EUC-KR">
+	<link rel="stylesheet" href="/css/admin.css" type="text/css">
+	
+	
+	<title>Insert title here</title>
 
-<link rel="stylesheet" href="/css/admin.css" type="text/css">
 
-<title>Insert title here</title>
+	<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+	<script type="text/javascript">
+	
+		$(function() {
+			$( "#purchaseLogIn" ).on("click" , function() {
+				self.location = "/product/addPurchase?prodNo=${product.prodNo}";
+			});
+			
+			$( "#purchaseLogOut" ).on("click" , function() {
+				self.location = "/user/loginView.jsp";
+			});
+			
+			$( "td.ct_btn01:contains('이전')" ).on("click" , function() {
+				history.go(-1);
+			});
+			
+			$( "td.ct_btn01:contains('수정')" ).on("click" , function() {
+				self.location = "/product/updateProduct?prodNo=${product.prodNo}&menu=manage";
+			});
+			
+			$( "td.ct_btn01:contains('취소')" ).on("click" , function() {
+				history.go(-1);
+			});
+			
+			$( "td.ct_btn01:contains('확인')" ).on("click" , function() {
+				self.location = "/product/listProduct?menu=manage";
+			});
+		});
+	
+	
+	</script>
 </head>
 
 <body bgcolor="#ffffff" text="#000000">
@@ -133,10 +167,12 @@
 						<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top: 3px;">
 							<c:choose>
 								<c:when test="${userVO.role eq 'user'}">
-									<a href="/product/addPurchase?prodNo=${product.prodNo}">구매</a>
+									<!-- <a href="/product/addPurchase?prodNo=${product.prodNo}">구매</a> -->
+									<div id="purchaseLogIn">구매</div>
 								</c:when>
 								<c:when test="${empty userVO }">
-									<a href="/user/loginView.jsp">구매</a>
+									<!-- <a href="/user/loginView.jsp">구매</a> -->
+									<div id="purchaseLogOut">구매</div>
 								</c:when>
 							</c:choose>
 						</td>
@@ -149,12 +185,12 @@
 							<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
 						</td>
 						<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top: 3px;">
-							<a href="javascript:history.go(-1)">이전</a>
+							이전
 						</td>
 					</c:when>
 					<c:when test="${menu eq 'manage'}">
 						<td background="/images/ct_btnbg02.gif" class="ct_btn01"	style="padding-top: 3px;">
-							<a href="/product/updateProduct?prodNo=${product.prodNo}&menu=manage">수정</a>
+							수정
 						</td>
 						<td width="14" height="23">
 							<img src="/images/ct_btnbg03.gif" width="14" height="23"/>
@@ -164,17 +200,17 @@
 							<img src="/images/ct_btnbg01.gif"width="17" height="23"/>
 						</td>
 						<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top: 3px;">
-							<a href="javascript:history.go(-1)">취소</a>
+							취소
 						</td>
 					</c:when>
 					<c:when test="${menu eq 'ok'}">
 						<td background="/images/ct_btnbg02.gif" class="ct_btn01"	style="padding-top: 3px;">
-							<a href="/product/listProduct?menu=manage">확인</a>
+							확인
 						</td>
 					</c:when>
 					<c:otherwise>
 						<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top: 3px;">
-							<a href="javascript:history.go(-1)">이전</a>
+							이전
 						</td>
 					</c:otherwise>
 				</c:choose>
