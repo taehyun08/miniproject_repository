@@ -14,7 +14,7 @@ import com.model2.mvc.service.product.impl.ProductDaoImpl;
 import com.model2.mvc.service.purchase.PurchaseDao;
 import com.model2.mvc.service.purchase.PurchaseService;
 
-@Service("purchaseServiceimpl")
+@Service("purchaseServiceImpl")
 public class PurchaseServiceimpl implements PurchaseService {
 	//field
 	
