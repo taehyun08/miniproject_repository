@@ -18,7 +18,7 @@
 	
 		$(function() {
 			$( "#purchaseLogIn" ).on("click" , function() {
-				self.location = "/product/addPurchase?prodNo=${product.prodNo}";
+				self.location = "/purchase/addPurchase?prodNo=${product.prodNo}";
 			});
 			
 			$( "#purchaseLogOut" ).on("click" , function() {
@@ -163,14 +163,14 @@
 					<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
 				</td>
 				<c:choose>
-					<c:when test ="${menu eq 'search' && (product.stock > 0) && userVO.role ne 'admin'}">
+					<c:when test ="${menu eq 'search' && (product.stock > 0) && user.role ne 'admin'}">
 						<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top: 3px;">
 							<c:choose>
-								<c:when test="${userVO.role eq 'user'}">
+								<c:when test="${user.role eq 'user'}">
 									<!-- <a href="/product/addPurchase?prodNo=${product.prodNo}">备概</a> -->
 									<div id="purchaseLogIn">备概</div>
 								</c:when>
-								<c:when test="${empty userVO }">
+								<c:when test="${empty user }">
 									<!-- <a href="/user/loginView.jsp">备概</a> -->
 									<div id="purchaseLogOut">备概</div>
 								</c:when>
