@@ -16,7 +16,7 @@
 
 <body bgcolor="#ffffff" text="#000000">
 
-<form name="updatePurchase" method="post"	action="/updatePurchase.do?tranNo=${purchaseVO.tranNo}">
+<form name="updatePurchase" method="post"	action="/purchase/updatePurchase?tranNo=${purchase.tranNo}">
 
 <table width="100%" height="37" border="0" cellpadding="0" cellspacing="0">
 	<tr>
@@ -44,8 +44,8 @@
 	<tr>
 		<td width="104" class="ct_write">구매자아이디</td>
 		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">${purchaseVO.buyer.userId }</td>
-		<input type="hidden" name="buyerId" value="${purchaseVO.buyer.userId }">
+		<td class="ct_write01">${purchase.buyer.userId }</td>
+		<input type="hidden" name="buyerId" value="${purchase.buyer.userId }">
 	</tr>
 	<tr>
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
@@ -69,7 +69,7 @@
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
 			<input 	type="text" name="receiverName" 	class="ct_input_g" style="width: 100px; height: 19px" 
-							maxLength="20" value="${purchaseVO.receiverName }" />
+							maxLength="20" value="${purchase.receiverName }" />
 		</td>
 	</tr>
 	<tr>
@@ -80,7 +80,7 @@
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
 			<input 	type="text" name="receiverPhone" class="ct_input_g" style="width: 100px; height: 19px" 
-							maxLength="20" value="${purchaseVO.receiverPhone }" />
+							maxLength="20" value="${purchase.receiverPhone }" />
 		</td>
 	</tr>
 
@@ -92,7 +92,7 @@
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
 			<input 	type="text" name="receiverAddr" class="ct_input_g" style="width: 100px; height: 19px" 
-							maxLength="20" value="${purchaseVO.divyAddr }" />
+							maxLength="20" value="${purchase.divyAddr }" />
 		</td>
 	</tr>
 	<tr>
@@ -103,7 +103,7 @@
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
 			<input 	type="text" name="receiverRequest" 	class="ct_input_g" style="width: 100px; height: 19px" 
-							maxLength="20" value="${purchaseVO.divyRequest }" />
+							maxLength="20" value="${purchase.divyRequest }" />
 		</td>
 	</tr>
 	<tr>
@@ -112,7 +112,7 @@
 	<tr>
 		<td width="104" class="ct_write">배송희망일</td>
 		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">${purchaseVO.divyDate }</td>
+		<td class="ct_write01">${purchase.divyDate }</td>
 	</tr>
 
 	<tr>
@@ -122,7 +122,7 @@
 	<tr>
 		<td width="104" class="ct_write">주문일</td>
 		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">${purchaseVO.orderDate }</td>
+		<td class="ct_write01">${purchase.orderDate }</td>
 	</tr>
 
 	<tr>

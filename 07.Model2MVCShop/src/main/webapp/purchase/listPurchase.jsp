@@ -21,7 +21,7 @@
 
 <div style="width: 98%; margin-left: 10px;">
 
-<form name="detailForm" action="/listUser.do" method="post">
+<form name="detailForm" action="/purchase/listPurchase" method="post">
 
 <table width="100%" height="37" border="0" cellpadding="0"	cellspacing="0">
 	<tr>
@@ -39,7 +39,7 @@
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0"	style="margin-top: 10px;">
 	<tr>
-		<td colspan="11">전체 ${pageVO.maxPage} 건수, 현재 ${pageVO.currentPage} 페이지</td>
+		<td colspan="11">전체 ${page.maxPage} 건수, 현재 ${page.currentPage} 페이지</td>
 	</tr>
 
 	<tr>
@@ -66,22 +66,22 @@
 	</tr>
 
 	<c:set var="no" value="${searchVO.pageUnit }"/>
-	<c:forEach var = "purchaseVO" items="${map.list}" >
+	<c:forEach var = "purchase" items="${map.list}" >
 	<tr class="ct_list_pop">
 		<td align="Left">
-			<a href="/getPurchase.do?tranNo=${purchaseVO.tranNo}">${purchaseVO.purchaseProd.prodName}</a>
+			<a href="/getPurchase.do?tranNo=${purchase.tranNo}">${purchase.purchaseProd.prodName}</a>
 		</td>
 		<td></td>
 		<td align="left">
-			${purchaseVO.paymentOption.replaceAll(' ', '') eq '1' ? '현금결제' : '카드결제'}
+			${purchase.paymentOption.replaceAll(' ', '') eq '1' ? '현금결제' : '카드결제'}
 		</td>
 		<td></td>
-		<td align="left">${purchaseVO.receiverName}</td>
+		<td align="left">${purchase.receiverName}</td>
 		<td></td>
-		<td align="left">${purchaseVO.divyAddr}</td>
+		<td align="left">${purchase.divyAddr}</td>
 		<td></td>
 		<td align="left">현재
-		<c:set var="tranCode" value="${purchaseVO.tranCode.replaceAll(' ', '')}"/>
+		<c:set var="tranCode" value="${purchase.tranCode.replaceAll(' ', '')}"/>
 			<c:choose>
 				<c:when test="${tranCode eq '2'}">
 					구매완료
@@ -99,16 +99,16 @@
 				상태 입니다.</td>
 		<td></td>
 		<td align="left">
-			${purchaseVO.divyRequest}
+			${purchase.divyRequest}
 		</td>
 		<td></td>
 		<td align="left">
-			${purchaseVO.orderDate}
+			${purchase.orderDate}
 		</td>
 		<td></td>
 		<td align="left">
 			<c:if test="${tranCode eq '3'}">
-				<a href="/updateTranCode.do?tranNo=${purchaseVO.tranNo}&tranCode=3">물건도착</a>
+				<a href="/purchase/updateTranCode?tranNo=${purchase.tranNo}&tranCode=3">물건도착</a>
 			</c:if>
 		</td>
 		<td></td>
@@ -128,14 +128,14 @@
 <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top: 10px;">
 	<tr>
 		<td align="center">
-		<c:if test="${pageVO.beginUnitPage != 1}">
-			<a href="/listPurchase.do?page=${pageVO.getBeginUnitPage()-pageVO.getPageUnit()}">이전</a> 
+		<c:if test="${page.beginUnitPage != 1}">
+			<a href="/purchase/listPurchase?page=${page.beginUnitPage-page.pageUnit}">이전</a> 
 		</c:if>
-		<c:forEach var="i" begin="${pageVO.beginUnitPage}" end="${pageVO.endUnitPage}">
-			<a href="/listPurchase.do?page=${i}">${i}</a> 
+		<c:forEach var="i" begin="${page.beginUnitPage}" end="${page.endUnitPage}">
+			<a href="/purchase/listPurchase?page=${i}">${i}</a> 
 		</c:forEach>
-		<c:if test="${pageVO.endUnitPage != pageVO.maxPage}">
-			<a href="/listPurchase.do?page=${pageVO.getBeginUnitPage()+pageVO.getPageUnit()}">다음</a> 
+		<c:if test="${page.endUnitPage != page.maxPage}">
+			<a href="/purchase/listPurchase?page=${page.beginUnitPage+page.pageUnit}">다음</a> 
 		</c:if>
 		
 		</td>
