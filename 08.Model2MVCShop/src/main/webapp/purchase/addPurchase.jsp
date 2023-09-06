@@ -8,12 +8,24 @@
 
 <html>
 <head>
+	<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+	<script type="text/javascript">
+	<!--
+		$(function() {
+			 $( "td.ct_btn01:contains('확인')" ).on("click" , function() {
+				 $("form").attr("method" , "POST").attr("action" , "/purchase/updatePurchaseView?tranNo=0").submit();
+			});
+		});	
+	
+	-->
+	</script>
+
 <title>Insert title here</title>
 </head>
 
 <body>
 
-<form name="updatePurchase" action="/purchase/updatePurchaseView?tranNo=0" method="post">
+<form name="updatePurchase">
 
 다음과 같이 구매가 되었습니다.
 

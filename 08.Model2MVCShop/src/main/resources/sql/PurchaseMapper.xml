@@ -9,6 +9,7 @@
  	
 	<resultMap id="purchaseSelectMap" type="com.model2.mvc.service.domain.Purchase">
 		<result property="tranNo" 				column="tran_no" 			jdbcType="NUMERIC" />
+		<result property="purchaseProd.prodName" column="prod_name"			jdbcType="VARCHAR"/>
 		<result property="purchaseProd.prodNo" 	column="prod_no" 			jdbcType="NUMERIC"/>
 		<result property="buyer.userId" 		column="buyer_id"			jdbcType="VARCHAR"/>
 		<result property="paymentOption"		column="payment_option"		jdbcType="CHAR"/>
@@ -72,10 +73,11 @@
 	 </select>
 
 	<!-- SQL : SELECT ROW Count -->	 
-	 <select  id="getTotalCount"  parameterType="com.model2.mvc.common.Search"	 resultType="int">
+	 <select  id="getTotalCount"  parameterType="String"	 resultType="int">
 	  	SELECT COUNT(*)
 	  	FROM(	SELECT t.tran_no
 				FROM transaction t
+				WHERE t.buyer_id = #{value}
 				) countTable		
 	 </select>
 	 <!-- purchase 마지막 refactoring -->

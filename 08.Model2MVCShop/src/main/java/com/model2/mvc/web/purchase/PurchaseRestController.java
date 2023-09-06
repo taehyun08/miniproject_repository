@@ -118,7 +118,7 @@ public class PurchaseRestController {
 		System.out.println(search.getSearchCondition() + " " + search.getSearchKeyword());
 		Map<String, Object> inputMap = new HashMap<>();
 		List<Purchase> list = purchaseService.getPurchaseList(inputMap);
-		int count = purchaseService.getTotalCount(search);
+		int count = purchaseService.getTotalCount(userId);
 		
 		Map<String,Object> resultMap = new HashMap<>();
 		resultMap.put("list", list);

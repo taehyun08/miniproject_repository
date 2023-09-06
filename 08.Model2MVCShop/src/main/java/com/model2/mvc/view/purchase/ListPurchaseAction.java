@@ -41,7 +41,7 @@ public class ListPurchaseAction extends Action {
 		
 		PurchaseService service=new PurchaseServiceimpl();
 		List<Purchase> list = service.getPurchaseList(inputMap);
-		int count = service.getTotalCount(search);
+		int count = service.getTotalCount(userId);
 		
 		Map<String,Object> resultMap = new HashMap<>();
 		resultMap.put("list", list);

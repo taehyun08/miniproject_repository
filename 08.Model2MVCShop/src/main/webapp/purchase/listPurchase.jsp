@@ -9,11 +9,19 @@
 <title>구매 목록조회</title>
 
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
-
+<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script type="text/javascript">
-	function fncGetUserList() {
-		document.detailForm.submit();
-	}
+	$(function() {
+		$("td:contains('이전')").on("click" , function() {
+			self.location = "/purchase/listPurchase?currentPage=${page.beginUnitPage-page.pageUnit}";
+		});
+		 
+
+		$("td:contains('다음')").on("click" , function() {
+			self.location = "/purchase/listPurchase?currentPage=${page.beginUnitPage+page.pageUnit}";
+		});
+	});	
+	
 </script>
 </head>
 
@@ -21,7 +29,7 @@
 
 <div style="width: 98%; margin-left: 10px;">
 
-<form name="detailForm" action="/purchase/listPurchase" method="post">
+<form name="detailForm">
 
 <table width="100%" height="37" border="0" cellpadding="0"	cellspacing="0">
 	<tr>
@@ -65,11 +73,11 @@
 		<td colspan="15" bgcolor="808285" height="1"></td>
 	</tr>
 
-	<c:set var="no" value="${searchVO.pageUnit }"/>
+	<c:set var="no" value="${search.pageUnit }"/>
 	<c:forEach var = "purchase" items="${map.list}" >
 	<tr class="ct_list_pop">
 		<td align="Left">
-			<a href="/getPurchase.do?tranNo=${purchase.tranNo}">${purchase.purchaseProd.prodName}</a>
+			<a href="/purchase/getPurchase?tranNo=${purchase.tranNo}">${purchase.purchaseProd.prodName}</a>
 		</td>
 		<td></td>
 		<td align="left">
@@ -127,15 +135,15 @@
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top: 10px;">
 	<tr>
-		<td align="center">
+		<td align="center" id="page">
 		<c:if test="${page.beginUnitPage != 1}">
-			<a href="/purchase/listPurchase?currentPage=${page.beginUnitPage-page.pageUnit}">이전</a> 
+			이전
 		</c:if>
 		<c:forEach var="i" begin="${page.beginUnitPage}" end="${page.endUnitPage}">
-			<a href="/purchase/listPurchase?currentPage=${i}">${i}</a> 
+			<a href="/purchase/listPurchase?currentPage=${i}">${i}</a>
 		</c:forEach>
 		<c:if test="${page.endUnitPage != page.maxPage}">
-			<a href="/purchase/listPurchase?currentPage=${page.beginUnitPage+page.pageUnit}">다음</a> 
+			다음
 		</c:if>
 		
 		</td>

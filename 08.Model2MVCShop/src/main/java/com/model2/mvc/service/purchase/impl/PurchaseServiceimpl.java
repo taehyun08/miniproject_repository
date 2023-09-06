@@ -73,8 +73,8 @@ public class PurchaseServiceimpl implements PurchaseService {
 	}
 	
 	@Override
-	public int getTotalCount(Search search) throws Exception {
-		return dao.getTotalCount(search);
+	public int getTotalCount(String userId) throws Exception {
+		return dao.getTotalCount(userId);
 	}
 
 }

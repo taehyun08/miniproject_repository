@@ -22,6 +22,6 @@ public interface PurchaseService {
 	
 	public void deletePurchase(int tranNo) throws Exception;
 	
-	public int getTotalCount(Search search) throws Exception;
+	public int getTotalCount(String userId) throws Exception;
 	
 }

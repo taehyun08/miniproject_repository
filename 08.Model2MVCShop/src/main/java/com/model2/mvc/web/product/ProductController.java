@@ -1,5 +1,11 @@
 package com.model2.mvc.web.product;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.Cookie;
@@ -12,10 +18,13 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.model2.mvc.common.Page;
 import com.model2.mvc.common.Search;
@@ -52,7 +61,7 @@ public class ProductController {
 	int pageSize;
 	
 	
-	@RequestMapping(value="addProduct", method=RequestMethod.GET)
+	@GetMapping(value="addProduct")
 	public String addProductView() throws Exception {
 
 		System.out.println("/addProductView.do");
@@ -60,10 +69,33 @@ public class ProductController {
 		return "redirect:/product/addProductView.jsp";
 	}
 	
-	@RequestMapping(value="addProduct", method=RequestMethod.POST)
-	public String addProduct( @ModelAttribute("product") Product product ) throws Exception {
+	@PostMapping(value="addProduct")
+	public String addProduct( @RequestParam("files") List<MultipartFile> files, @ModelAttribute("product") Product product, Model model ) throws Exception {
 
 		System.out.println("/addProduct.do");
+		
+		if (!files.isEmpty()) {
+			StringBuffer productFileName = new StringBuffer();
+			for(MultipartFile file : files) {
+				String savePath = "C:\\miniproject_repository\\08.Model2MVCShop\\src\\main\\webapp\\images\\uploadFiles";
+				String fileName = file.getOriginalFilename();
+	            productFileName.append(fileName+",");
+	            try {
+	                byte[] bytes = file.getBytes();
+	                Path path = Paths.get(savePath + File.separator + fileName);
+	                Files.write(path, bytes);
+	            } catch (IOException e) {
+	                e.printStackTrace();
+	            }
+			}
+			productFileName.deleteCharAt(productFileName.length()-1);
+			product.setFileName(productFileName.toString());
+        } else {
+        	System.out.println("파일없음");
+        }
+		
+		model.addAttribute("product", product);
+		
 		//Business Logic
 		productService.addProduct(product);
 		

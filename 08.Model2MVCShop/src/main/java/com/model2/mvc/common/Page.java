@@ -20,7 +20,7 @@ public class Page {
 		this.maxPage = (totalCount-1) / pageSize + 1;
 		
 		this.beginUnitPage = currentPage - (currentPage-1)%pageUnit; 
-		this.endUnitPage = (totalCount-1)/pageSize; 
+		this.endUnitPage = (maxPage < beginUnitPage + pageUnit - 1 ? maxPage : beginUnitPage + pageUnit - 1); 
 		if(endUnitPage > maxPage){ 
 			endUnitPage = maxPage; 
 		}

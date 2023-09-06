@@ -119,22 +119,21 @@ public class PurchaseController {
 		search.setStartRowNum(startRowNum);
 		search.setEndRowNum(endRowNum);
 		search.setPageUnit(pageSize);
-		System.out.println(search.getSearchCondition() + " " + search.getSearchKeyword());
 		Map<String, Object> inputMap = new HashMap<>();
 		inputMap.put("userId", user.getUserId());
 		inputMap.put("search", search);
 		
 		
 		List<Purchase> list = purchaseService.getPurchaseList(inputMap);
-		int count = purchaseService.getTotalCount(search);
+		int count = purchaseService.getTotalCount(user.getUserId());
 		
 		Map<String,Object> resultMap = new HashMap<>();
 		resultMap.put("list", list);
+		resultMap.put("count", count);
 		//Business Logic
 		ModelAndView modelAndView = new ModelAndView();
 		
 		Page p = new Page(search.getCurrentPage(), ((Integer)resultMap.get("count")).intValue(), pageUnit, pageSize);
-		p.setMaxPage(count);
 		modelAndView.addObject("map", resultMap);
 		modelAndView.addObject("page", p);
 		modelAndView.setViewName("forward:/purchase/listPurchase.jsp");

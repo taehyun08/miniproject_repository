@@ -60,7 +60,7 @@ public class PurchaseDaoImpl implements PurchaseDao{
 		sqlSession.delete("PurchaseMapper.deletePurchase", tranNo);
 	}
 	
-	public int getTotalCount(Search search) throws Exception{
-		return sqlSession.selectOne("PurchaseMapper.getTotalCount", search);
+	public int getTotalCount(String userId) throws Exception{
+		return sqlSession.selectOne("PurchaseMapper.getTotalCount", userId);
 	}
 }
