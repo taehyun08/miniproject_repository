@@ -27,9 +27,6 @@ function history(){
 				<c:if test="${ !empty user }">
 					<tr>
 						<td class="Depth03">
-							<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-							<a href="/getUser.do?userId=${user.userId}" target="rightFrame">개인정보조회</a>
-							////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 							<a href="/user/getUser?userId=${user.userId}" target="rightFrame">개인정보조회</a>
 						</td>
 					</tr>
@@ -38,9 +35,6 @@ function history(){
 				<c:if test="${user.role == 'admin'}">
 					<tr>
 						<td class="Depth03" >
-							<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-							<a href="/listUser.do" target="rightFrame">회원정보조회</a>
-							////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 							<a href="/user/listUser" target="rightFrame">회원정보조회</a>
 						</td>
 					</tr>
@@ -76,7 +70,6 @@ function history(){
 	</tr>
 </c:if>
 
-<!--menu 03 line-->
 <tr>
 	<td valign="top"> 
 		<table  border="0" cellspacing="0" cellpadding="0" width="159">

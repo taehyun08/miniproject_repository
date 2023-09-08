@@ -74,13 +74,13 @@
 				<if test="searchCondition != null and searchKeyword != ''">
 					<where>
 						<choose>
-							<when test="searchCondition == '0'">
+							<when test="searchCondition.equals(&quot;0&quot;)">
 								p.prod_no = #{searchKeyword}
 							</when>
-							<when test="searchCondition == '1'">
+							<when test="searchCondition.equals(&quot;1&quot;)">
 								p.prod_name LIKE '%' || #{searchKeyword} || '%'
 							</when>
-							<when test="searchCondition == '2'">
+							<when test="searchCondition.equals(&quot;2&quot;)">
 								p.price = #{searchKeyword}
 							</when>
 						</choose>
@@ -108,18 +108,25 @@
 						<if test="searchCondition != null">
 							<where>
 								<choose>
-									<when test="searchCondition == '0'">
+									<when test="searchCondition.equals(&quot;0&quot;)">
 										p.prod_no = #{searchKeyword}
 									</when>
-									<when test="searchCondition == '1'">
+									<when test="searchCondition.equals(&quot;1&quot;)">
 										p.prod_name LIKE '%' || #{searchKeyword} || '%'
 									</when>
-									<when test="searchCondition == '2'">
+									<when test="searchCondition.equals(&quot;2&quot;)">
 										p.price = #{searchKeyword}
 									</when>
 								</choose>
 							</where>
 						</if> ) countTable		
+	 </select>
+	 
+	 <select  id="getProductListName" 	resultType="string">
+		SELECT prod_name
+		FROM product
+		GROUP BY prod_name
+		ORDER BY prod_name
 	 </select>
 	 
 </mapper>

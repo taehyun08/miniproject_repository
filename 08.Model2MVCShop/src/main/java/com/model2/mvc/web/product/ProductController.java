@@ -63,16 +63,12 @@ public class ProductController {
 	
 	@GetMapping(value="addProduct")
 	public String addProductView() throws Exception {
-
-		System.out.println("/addProductView.do");
-		
 		return "redirect:/product/addProductView.jsp";
 	}
 	
 	@PostMapping(value="addProduct")
 	public String addProduct( @RequestParam("files") List<MultipartFile> files, @ModelAttribute("product") Product product, Model model ) throws Exception {
 
-		System.out.println("/addProduct.do");
 		
 		if (!files.isEmpty()) {
 			StringBuffer productFileName = new StringBuffer();
@@ -105,7 +101,6 @@ public class ProductController {
 	@RequestMapping(value="getProduct")
 	public String getProduct( @RequestParam("prodNo") int prodNo, @ModelAttribute("menu") String menu, HttpServletRequest request, HttpServletResponse response , Model model ) throws Exception {
 		
-		System.out.println("/getProduct.do");
 		//Business Logic
 		Product product = productService.getProduct(prodNo);
 		

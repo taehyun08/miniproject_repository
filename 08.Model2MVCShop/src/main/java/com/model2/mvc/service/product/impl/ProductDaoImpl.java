@@ -41,16 +41,23 @@ public class ProductDaoImpl implements ProductDao {
 
 	public List<Object> getProductList(Search search) throws Exception {
 		System.out.println("getProductList 호출완료");
+		System.out.println("search.getSearchCondition() : " + search.getSearchCondition());
+		System.out.println("search.getSearchKeyword() : " + search.getSearchKeyword());
 		return sqlSession.selectList("ProductMapper.getProductList", search);
 	}
 
 	public int updateProduct(Product product) throws Exception {
 		System.out.println("updateProduct 호출완료");
-		return sqlSession.update("updateProduct", product);
+		return sqlSession.update("ProductMapper.updateProduct", product);
 	}
 	
 	public int getTotalCount(Search search) throws Exception {
 		return sqlSession.selectOne("ProductMapper.getTotalCount", search);
+	}
+	
+	@Override
+	public List<String> getProductListName() throws Exception {
+		return sqlSession.selectList("ProductMapper.getProductListName");
 	}
 
 }

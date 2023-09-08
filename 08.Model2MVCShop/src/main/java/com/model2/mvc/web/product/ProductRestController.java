@@ -15,7 +15,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -90,7 +92,7 @@ public class ProductRestController {
 	}
 	
 	@RequestMapping(value="json/listProduct")
-	public Map<String, Object> listProduct(Search search , String menu) throws Exception{
+	public Map<String, Object> listProduct(@ModelAttribute Search search , String menu) throws Exception{
 		System.out.println("/listProduct.do");
 		String orderBy = search.getOrderBy();
 		if(orderBy == null || orderBy.equals("")) {
@@ -119,27 +121,24 @@ public class ProductRestController {
 		// Model 과 View 연결
 		return map;
 	}
-	/*
-	@RequestMapping(value="/updateProduct", method = RequestMethod.GET)
-	public String updateProductView( @RequestParam("prodNo") int prodNo , Model model) throws Exception{
-
-		System.out.println("/updateProductView.do");
-		//Business Logic
-		Product product = productService.getProduct(prodNo);
-		model.addAttribute("product", product);
-		
-		return "forward:/product/updateProductView.jsp";
-	}
 	
-	@RequestMapping(value="/updateProduct", method = RequestMethod.POST)
+	@GetMapping(value="json/updateProduct")
+	public Product updateProductView(int prodNo) throws Exception{
+		Product product = productService.getProduct(prodNo);
+		return product;
+	}
+	// 여기부터 안함
+	@PostMapping(value="json/updateProduct")
 	public String updateProduct( @ModelAttribute("product") Product product , Model model) throws Exception{
-
-		System.out.println("/updateProduct.do");
-		//Business Logic
 		productService.updateProduct(product);
-		
 		return "forward:/product/getProduct?prodNo="+product.getProdNo();
 	}
-	*/
+	
+	@PostMapping(value="json/listProductName")
+	public List<String> listProductName() throws Exception{
+		List<String> list = productService.getProductListName();
+		return list;
+	}
+	
 
 }
