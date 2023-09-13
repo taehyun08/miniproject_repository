@@ -92,12 +92,14 @@ public class ProductRestController {
 	}
 	
 	@RequestMapping(value="json/listProduct")
-	public Map<String, Object> listProduct(@ModelAttribute Search search , String menu) throws Exception{
+	public Map<String, Object> listProduct(@RequestBody Search search , String menu) throws Exception{
 		System.out.println("/listProduct.do");
+		System.out.println("search.getCurrentPage() :: " + search.getCurrentPage());
 		String orderBy = search.getOrderBy();
 		if(orderBy == null || orderBy.equals("")) {
 			search.setOrderBy("prodNo");
 		}
+		System.out.println("orderBy :: " + orderBy);
 		if(search.getCurrentPage() == 0) {
 			search.setCurrentPage(1);
 		}

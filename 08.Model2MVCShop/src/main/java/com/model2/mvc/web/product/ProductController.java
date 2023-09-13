@@ -95,6 +95,9 @@ public class ProductController {
 		//Business Logic
 		productService.addProduct(product);
 		
+		String[] fileNames = product.getFileName().split(",");
+		model.addAttribute("fileNames", fileNames);
+		
 		return "forward:/product/addProduct.jsp";
 	}
 	
@@ -118,8 +121,9 @@ public class ProductController {
 		Cookie cookie = new Cookie("history", cookieValue);
 		cookie.setMaxAge(3600);
 		response.addCookie(cookie);
-		
+		String[] fileNames = product.getFileName().split(",");
 		// Model °ú View ¿¬°á
+		model.addAttribute("fileNames", fileNames);
 		model.addAttribute("product", product);
 		
 		return "forward:/product/getProductView.jsp";

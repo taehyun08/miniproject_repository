@@ -65,25 +65,15 @@
 						<when test="orderBy == 'viewsDesc'">
 							order by p.views DESC
 						</when>
-						<when test="orderBy == 'nameAsce'">
+						<when test="orderBy.equals('nameAsce')">
 							order by p.prod_name
 						</when>
 					</choose>
 				) as r
 				from product p 
-				<if test="searchCondition != null and searchKeyword != ''">
+				<if test="searchKeyword != null and !searchKeyword.equals(&quot;&quot;)">
 					<where>
-						<choose>
-							<when test="searchCondition.equals(&quot;0&quot;)">
-								p.prod_no = #{searchKeyword}
-							</when>
-							<when test="searchCondition.equals(&quot;1&quot;)">
-								p.prod_name LIKE '%' || #{searchKeyword} || '%'
-							</when>
-							<when test="searchCondition.equals(&quot;2&quot;)">
-								p.price = #{searchKeyword}
-							</when>
-						</choose>
+						p.prod_name LIKE '%' || #{searchKeyword} || '%'
 					</where>
 				</if>
 				) sub 

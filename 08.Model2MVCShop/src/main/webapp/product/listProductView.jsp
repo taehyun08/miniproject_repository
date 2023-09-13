@@ -270,6 +270,7 @@
 <!doctype html>
 <html lang="en" data-bs-theme="auto">
   <head>
+  
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -281,10 +282,124 @@
     <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/album/">
 
     
-
+	<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+	<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
+    
+   <script type="text/javascript">
+   		var page = 1;
+   		var itemId = 1;
+   		var isLoading = false;
+   		$(function(){
+   			
+   			
+   			
+   			
+   			$('#tags').keypress(function(event) {
+   			    // 눌린 키 코드 가져오기
+   			    var keycode = (event.keyCode ? event.keyCode : event.which);
+				console.log("키눌림");
+   			    // 엔터 키 (키 코드 13) 눌렀을 때만 처리
+   			    if (keycode == '13') {
+   			      console.log("엔터키눌림");
+   			      // 입력된 텍스트 가져오기
+   			      var location = "/product/listProduct?menu=${menu}&searchCondition=1";
+   			   	  $("form").attr("method" , "POST").attr("action" , location).submit();
+   			    }
+   			  });
+   			
+   			$(window).scroll(function() {
+   			    // 스크롤 위치와 문서 높이 계산
+   			    var scrollHeight = $(document).height();
+   			    var scrollPosition = $(window).height() + $(window).scrollTop();
+				//console.log((scrollPosition / scrollHeight) > 0.8);
+				
+				console.log(!isLoading);
+   			    // 스크롤 위치가 문서 높이의 80%에 도달하면 추가 콘텐츠 로드
+   			    if ((scrollPosition / scrollHeight) > 0.8 && !isLoading) {
+   			      console.log("if문 들어옴");
+   			      isLoading = true; // 데이터 로딩 중으로 플래그 설정
+   			      loadMoreItems();
+   			    }
+   			});
+   		    // 초기 아이템 로딩
+   		    loadMoreItems();
+   		    
+   		    function loadMoreItems() {
+	   			console.log("loadMoreItems 실행");
+	   			var keyword = $('#tags').val();
+			    var requestData = {
+						currentPage : page,
+						searchKeyword : keyword,
+						orderBy : "${search.orderBy}"
+				};
+				$.ajax( 
+						{
+							url : "/product/json/listProduct?menu=${menu}" ,
+							method : "POST" ,
+							dataType : "json" ,
+							data : JSON.stringify(requestData),
+							headers : {
+								"Accept" : "application/json",
+								"Content-Type" : "application/json"
+							},
+							success : function(JSONData , status) {
+								for (var i = 0; i < JSONData.list.length; i++) {
+									var getProductButtonId = "getProductButton" + itemId;
+									console.log(getProductButtonId);
+									var fileName = ((JSONData.list[i].fileName).split(','))[0];
+									console.log(fileName);
+									var newItem = '<div class="col">' +
+						               '<div class="card shadow-sm">' +
+						               '<svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><image xlink:href="/images/uploadFiles/'+fileName+'" width="100%" height="100%" /></svg>' +
+						               '<div class="card-body">' +
+						               '<p class="card-text">' + JSONData.list[i].prodName + '</p>' +
+						               '<div class="d-flex justify-content-between align-items-center">' +
+						               '<div class="btn-group">' +
+						               '<input type="hidden" name="hiddenValue" value=' + JSONData.list[i].prodNo + '>' +
+						               '<button type="button" class="btn btn-sm btn-outline-secondary">View</button>' +
+						               '<button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>' +
+						               '</div>' +
+						               '<small class="text-body-secondary">' + JSONData.list[i].price + '원</small>' +
+						               '</div>' +
+						               '</div>' +
+						               '</div>' +
+						               '</div>';
+									$('#itemList').append(newItem);
+									itemId++;;
+									if(${user.role != 'admin'}){
+										$('button[type="button"]:contains("Edit")').remove();
+									}
+									$('button[type="button"]:contains("View")').on("click", function(){
+										console.log("버튼 클릭시");
+										var prodNo = $(this).prev('input[type="hidden"]').val();
+										console.log(prodNo);
+						   				window.location = "/product/getProduct?prodNo=" + prodNo +"&menu=" + JSONData.menu;
+						   			});
+									$('button[type="button"]:contains("Edit")').on("click", function(){
+										console.log("버튼 클릭시");
+										var parentDiv = $(this).closest('.btn-group');
+										var prodNo = parentDiv.find('input[name="hiddenValue"]').val();
+										console.log(prodNo);
+						   				window.location = "/product/updateProduct?prodNo=" + prodNo +"&menu=manage";
+						   			});
+				   		        }
+								page = page + 1;
+								isLoading = false;
+							}
+				});
+		        
+		        
+		    }
+   			
+   		});
+   		
+   		
+   
+	   
+    
+    </script>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
 
     <!-- Favicons -->
 <meta name="theme-color" content="#712cf9">
@@ -367,6 +482,7 @@
     
   </head>
   <body>
+  	<form>
     <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
       <symbol id="check2" viewBox="0 0 16 16">
         <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
@@ -440,7 +556,7 @@
   </div>
   <div class="navbar navbar-dark bg-dark shadow-sm">
     <div class="container">
-      <a href="#" class="navbar-brand d-flex align-items-center">
+      <a href="/" class="navbar-brand d-flex align-items-center">
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" aria-hidden="true" class="me-2" viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
         <strong>MVC SHOP</strong>
       </a>
@@ -455,6 +571,9 @@
 	      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
 	        <span class="navbar-toggler-icon"></span>
 	      </button>
+	      <div align="right">
+			<input type="text" id="tags" name="searchKeyword" value="${empty search.searchKeyword ? '' : search.searchKeyword}" class="ct_input_g" style="width:200px; height:19px" />
+		</div>
 	    </div>
    	  </nav>
     </div>
@@ -465,6 +584,12 @@
 <main>
 
   <section class="py-5 text-center container">
+  <ul>
+		        <a href="/product/listProduct?currentPage=1&menu=${menu}&searchCondition=${search.searchCondition}&searchKeyword=${search.searchKeyword}&orderBy=priceDesc">가격높은순</a>
+		        <a href="/product/listProduct?currentPage=1&menu=${menu}&searchCondition=${search.searchCondition}&searchKeyword=${search.searchKeyword}&orderBy=priceAsce">가격낮은순</a>
+		        <a href="/product/listProduct?currentPage=1&menu=${menu}&searchCondition=${search.searchCondition}&searchKeyword=${search.searchKeyword}&orderBy=viewsDesc">가장많이본상품</a>
+		        <a href="/product/listProduct?currentPage=1&menu=${menu}&searchCondition=${search.searchCondition}&searchKeyword=${search.searchKeyword}&orderBy=nameAsce">이름순</a>
+	    	</ul>
     <div class="row py-lg-5">
       <div class="col-lg-6 col-md-8 mx-auto">
         <h1 class="fw-light">Product List</h1>
@@ -479,29 +604,10 @@
 
   <div class="album py-5 bg-body-tertiary">
     <div class="container">
-      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3" id="itemList">
       
       
-      <c:forEach var="vo" items="${map.list}">
-      
-        <div class="col">
-          <div class="card shadow-sm">
-            <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
-            <div class="card-body">
-              <p class="card-text">${vo.prodName }</p>
-              <div class="d-flex justify-content-between align-items-center">
-                <div class="btn-group">
-                  <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                </div>
-                <small class="text-body-secondary">${vo.price}원</small>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        
-        </c:forEach>
+
         
         
       </div>
@@ -509,7 +615,7 @@
   </div>
 
 </main>
-
+</form>
 <footer class="text-body-secondary py-5">
   <div class="container">
     <p class="float-end mb-1">
@@ -519,7 +625,6 @@
     <p class="mb-0">New to Bootstrap? <a href="/">Visit the homepage</a> or read our <a href="/docs/5.3/getting-started/introduction/">getting started guide</a>.</p>
   </div>
 </footer>
-<script src="/docs/5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
 
     </body>
 </html>

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
+<%@ taglib prefix ="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 
 
@@ -125,7 +126,9 @@
 				<table border="0" cellspacing="0" cellpadding="0">
 					<tr>
 						<td height="26">
-							${product.fileName }
+							<c:forEach var="fileName" items="${fileNames}">
+								<img src = "/images/uploadFiles/${fileName}"/>
+							</c:forEach>
 						</td>
 					</tr>
 				</table>

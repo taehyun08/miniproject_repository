@@ -49,7 +49,6 @@
 		$(function() {
 			//alert("1");
 			 $("td.ct_btn01:contains('등록')").on("click" , function() {
-				alert(  $( "td.ct_btn01:contains('등록')" ).html() );
 				fncAddProduct();
 			});
 		});	

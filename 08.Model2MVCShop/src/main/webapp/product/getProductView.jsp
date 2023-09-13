@@ -103,7 +103,9 @@
 		</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
-			<img src = "${ product.fileName }"/>
+			<c:forEach var="fileName" items="${fileNames}">
+				<img src = "/images/uploadFiles/${fileName}"/>
+			</c:forEach>
 		</td>
 	</tr>
 	<tr>
